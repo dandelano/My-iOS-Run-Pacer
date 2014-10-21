@@ -15,6 +15,6 @@
 @dynamic distance;
 @dynamic duration;
 @dynamic timestamp;
-@dynamic location;
+@dynamic locations;
 
 @end

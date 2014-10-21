@@ -16,7 +16,7 @@
 @property (nonatomic, retain) NSNumber * distance;
 @property (nonatomic, retain) NSNumber * duration;
 @property (nonatomic, retain) NSDate * timestamp;
-@property (nonatomic, retain) NSOrderedSet *location;
+@property (nonatomic, retain) NSOrderedSet *locations;
 @end
 
 @interface Run (CoreDataGeneratedAccessors)

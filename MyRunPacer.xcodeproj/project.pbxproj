@@ -52,17 +52,18 @@
 		4860EC7F19F37140007D059B /* umbriel.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4860EC5419F37140007D059B /* umbriel.jpg */; };
 		4860EC8219F375D3007D059B /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4860EC8119F375D3007D059B /* HomeViewController.m */; };
 		4860EC8519F3765D007D059B /* NewRunViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4860EC8419F3765D007D059B /* NewRunViewController.m */; };
+		4860EC8819F55B74007D059B /* MathController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4860EC8719F55B74007D059B /* MathController.m */; };
 		48C5D6EB19F1A42B001C0273 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 48C5D6EA19F1A42B001C0273 /* main.m */; };
 		48C5D6EE19F1A42B001C0273 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 48C5D6ED19F1A42B001C0273 /* AppDelegate.m */; };
 		48C5D6F119F1A42B001C0273 /* MyRunPacer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 48C5D6EF19F1A42B001C0273 /* MyRunPacer.xcdatamodeld */; };
 		48C5D6F719F1A42B001C0273 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48C5D6F619F1A42B001C0273 /* DetailViewController.m */; };
 		48C5D6FA19F1A42B001C0273 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 48C5D6F819F1A42B001C0273 /* Main.storyboard */; };
 		48C5D6FC19F1A42B001C0273 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 48C5D6FB19F1A42B001C0273 /* Images.xcassets */; };
-		48C5D6FF19F1A42B001C0273 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 48C5D6FD19F1A42B001C0273 /* LaunchScreen.xib */; };
 		48C5D70B19F1A42C001C0273 /* MyRunPacerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 48C5D70A19F1A42C001C0273 /* MyRunPacerTests.m */; };
 		48C5D71619F1A5F3001C0273 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 48C5D71519F1A5F3001C0273 /* Location.m */; };
 		48C5D71919F1A5F4001C0273 /* Run.m in Sources */ = {isa = PBXBuildFile; fileRef = 48C5D71819F1A5F4001C0273 /* Run.m */; };
 		48C5D71D19F1A65B001C0273 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48C5D71C19F1A65B001C0273 /* MapKit.framework */; };
+		48EE082919F5F8980014C384 /* MulticolorPolylineSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = 48EE082819F5F8980014C384 /* MulticolorPolylineSegment.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -123,6 +124,8 @@
 		4860EC8119F375D3007D059B /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
 		4860EC8319F3765D007D059B /* NewRunViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewRunViewController.h; sourceTree = "<group>"; };
 		4860EC8419F3765D007D059B /* NewRunViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewRunViewController.m; sourceTree = "<group>"; };
+		4860EC8619F55B74007D059B /* MathController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MathController.h; sourceTree = "<group>"; };
+		4860EC8719F55B74007D059B /* MathController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MathController.m; sourceTree = "<group>"; };
 		48C5D6E519F1A42B001C0273 /* MyRunPacer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyRunPacer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48C5D6E919F1A42B001C0273 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		48C5D6EA19F1A42B001C0273 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -133,7 +136,6 @@
 		48C5D6F619F1A42B001C0273 /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		48C5D6F919F1A42B001C0273 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		48C5D6FB19F1A42B001C0273 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		48C5D6FE19F1A42B001C0273 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		48C5D70419F1A42C001C0273 /* MyRunPacerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyRunPacerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		48C5D70919F1A42C001C0273 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		48C5D70A19F1A42C001C0273 /* MyRunPacerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyRunPacerTests.m; sourceTree = "<group>"; };
@@ -142,6 +144,8 @@
 		48C5D71719F1A5F4001C0273 /* Run.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Run.h; sourceTree = "<group>"; };
 		48C5D71819F1A5F4001C0273 /* Run.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Run.m; sourceTree = "<group>"; };
 		48C5D71C19F1A65B001C0273 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		48EE082719F5F8980014C384 /* MulticolorPolylineSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MulticolorPolylineSegment.h; sourceTree = "<group>"; };
+		48EE082819F5F8980014C384 /* MulticolorPolylineSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MulticolorPolylineSegment.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -235,6 +239,7 @@
 		48C5D6E719F1A42B001C0273 /* MyRunPacer */ = {
 			isa = PBXGroup;
 			children = (
+				48EE082619F5F84A0014C384 /* Utilities */,
 				4860EC2919F37132007D059B /* Images */,
 				48C5D71B19F1A61F001C0273 /* Data */,
 				48C5D71A19F1A606001C0273 /* GUI */,
@@ -278,7 +283,6 @@
 				48C5D6F619F1A42B001C0273 /* DetailViewController.m */,
 				48C5D6F819F1A42B001C0273 /* Main.storyboard */,
 				48C5D6FB19F1A42B001C0273 /* Images.xcassets */,
-				48C5D6FD19F1A42B001C0273 /* LaunchScreen.xib */,
 				4860EC8019F375D3007D059B /* HomeViewController.h */,
 				4860EC8119F375D3007D059B /* HomeViewController.m */,
 				4860EC8319F3765D007D059B /* NewRunViewController.h */,
@@ -297,6 +301,17 @@
 				48C5D71519F1A5F3001C0273 /* Location.m */,
 			);
 			name = Data;
+			sourceTree = "<group>";
+		};
+		48EE082619F5F84A0014C384 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				4860EC8619F55B74007D059B /* MathController.h */,
+				4860EC8719F55B74007D059B /* MathController.m */,
+				48EE082719F5F8980014C384 /* MulticolorPolylineSegment.h */,
+				48EE082819F5F8980014C384 /* MulticolorPolylineSegment.m */,
+			);
+			name = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -348,6 +363,11 @@
 				TargetAttributes = {
 					48C5D6E419F1A42B001C0273 = {
 						CreatedOnToolsVersion = 6.0.1;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					48C5D70319F1A42C001C0273 = {
 						CreatedOnToolsVersion = 6.0.1;
@@ -394,7 +414,6 @@
 				4860EC6219F37140007D059B /* ganymede.jpg in Resources */,
 				4860EC5719F37140007D059B /* atmosphere.jpg in Resources */,
 				4860EC5519F37140007D059B /* ariel.jpg in Resources */,
-				48C5D6FF19F1A42B001C0273 /* LaunchScreen.xib in Resources */,
 				4860EC6419F37140007D059B /* iapetus.jpg in Resources */,
 				4860EC7C19F37140007D059B /* titan.jpg in Resources */,
 				4860EC6719F37140007D059B /* Icon-Spotlight.png in Resources */,
@@ -444,6 +463,8 @@
 			files = (
 				48C5D6F719F1A42B001C0273 /* DetailViewController.m in Sources */,
 				48C5D71919F1A5F4001C0273 /* Run.m in Sources */,
+				4860EC8819F55B74007D059B /* MathController.m in Sources */,
+				48EE082919F5F8980014C384 /* MulticolorPolylineSegment.m in Sources */,
 				48C5D6EE19F1A42B001C0273 /* AppDelegate.m in Sources */,
 				48C5D6EB19F1A42B001C0273 /* main.m in Sources */,
 				48C5D71619F1A5F3001C0273 /* Location.m in Sources */,
@@ -478,14 +499,6 @@
 				48C5D6F919F1A42B001C0273 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		48C5D6FD19F1A42B001C0273 /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				48C5D6FE19F1A42B001C0273 /* Base */,
-			);
-			name = LaunchScreen.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -571,9 +584,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = MyRunPacer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -581,9 +596,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = MyRunPacer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
