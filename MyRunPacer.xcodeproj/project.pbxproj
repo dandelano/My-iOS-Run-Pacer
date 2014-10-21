@@ -64,6 +64,7 @@
 		48C5D71919F1A5F4001C0273 /* Run.m in Sources */ = {isa = PBXBuildFile; fileRef = 48C5D71819F1A5F4001C0273 /* Run.m */; };
 		48C5D71D19F1A65B001C0273 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48C5D71C19F1A65B001C0273 /* MapKit.framework */; };
 		48EE082919F5F8980014C384 /* MulticolorPolylineSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = 48EE082819F5F8980014C384 /* MulticolorPolylineSegment.m */; };
+		48EE082B19F6CEB20014C384 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48EE082A19F6CEB20014C384 /* AudioToolbox.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -146,6 +147,7 @@
 		48C5D71C19F1A65B001C0273 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		48EE082719F5F8980014C384 /* MulticolorPolylineSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MulticolorPolylineSegment.h; sourceTree = "<group>"; };
 		48EE082819F5F8980014C384 /* MulticolorPolylineSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MulticolorPolylineSegment.m; sourceTree = "<group>"; };
+		48EE082A19F6CEB20014C384 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,6 +155,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48EE082B19F6CEB20014C384 /* AudioToolbox.framework in Frameworks */,
 				48C5D71D19F1A65B001C0273 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -220,6 +223,7 @@
 		48C5D6DC19F1A42B001C0273 = {
 			isa = PBXGroup;
 			children = (
+				48EE082A19F6CEB20014C384 /* AudioToolbox.framework */,
 				48C5D71C19F1A65B001C0273 /* MapKit.framework */,
 				48C5D6E719F1A42B001C0273 /* MyRunPacer */,
 				48C5D70719F1A42C001C0273 /* MyRunPacerTests */,

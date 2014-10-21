@@ -7,15 +7,31 @@
 //
 
 #import "NewRunViewController.h"
-#import "DetailViewController.h"
-#import "Run.h"
 #import <CoreLocation/CoreLocation.h>
+#import <MapKit/MapKit.h>
+#import <AudioToolbox/AudioToolbox.h>
+#import "DetailViewController.h"
 #import "MathController.h"
+#import "Run.h"
 #import "Location.h"
 
 static NSString * const detailSegueName = @"RunDetails";
 
-@interface NewRunViewController () <UIActionSheetDelegate, CLLocationManagerDelegate>
+@interface NewRunViewController () <UIActionSheetDelegate, CLLocationManagerDelegate, MKMapViewDelegate, UIPickerViewDelegate,UIPickerViewDataSource>
+
+// Flag for is app started
+@property BOOL isActivityStarted;
+
+// Pace buzzer feature
+@property BOOL isPacerOn;
+@property BOOL isWalking;
+@property int paceWalkTimeSeconds;
+@property int paceRunTimeSeconds;
+@property int paceCountSeconds;
+@property NSArray *pickerData;
+
+// MapView
+@property (nonatomic, weak) IBOutlet MKMapView *mapView;
 
 // LocationManager
 @property int seconds;
@@ -31,8 +47,15 @@ static NSString * const detailSegueName = @"RunDetails";
 @property (nonatomic, weak) IBOutlet UILabel *timeLabel;
 @property (nonatomic, weak) IBOutlet UILabel *distLabel;
 @property (nonatomic, weak) IBOutlet UILabel *paceLabel;
+@property (weak, nonatomic) IBOutlet UILabel *intervalTimeLabel;
+
 @property (nonatomic, weak) IBOutlet UIButton *startButton;
-@property (nonatomic, weak) IBOutlet UIButton *stopButton;
+@property (weak, nonatomic) IBOutlet UISwitch *usePacerSwitch;
+
+// Pacer time picker
+@property (weak, nonatomic) IBOutlet UIView *PopUpPickerView;
+@property (weak, nonatomic) IBOutlet UIButton *doneButton;
+@property (weak, nonatomic) IBOutlet UIPickerView *pickerView;
 
 @end
 
@@ -41,6 +64,16 @@ static NSString * const detailSegueName = @"RunDetails";
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    self.isActivityStarted = NO;
+    
+    // set pace timer
+    self.isPacerOn = NO;
+    
+    _pickerData = @[@30,@60,@90];
+    
+    self.pickerView.dataSource = self;
+    self.pickerView.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -52,14 +85,21 @@ static NSString * const detailSegueName = @"RunDetails";
 {
     [super viewWillAppear:animated];
     
+    self.mapView.hidden = YES;
+    
+    // Show as start button
+    [self.startButton setTitle:@"Start" forState:UIControlStateNormal];
+    self.startButton.backgroundColor = [UIColor greenColor];
     self.startButton.hidden = NO;
+    
     self.promptLabel.hidden = NO;
     
     self.timeLabel.text = @"Time: 00:00";
     self.timeLabel.hidden = YES;
     self.distLabel.hidden = YES;
     self.paceLabel.hidden = YES;
-    self.stopButton.hidden = YES;
+    self.intervalTimeLabel.hidden = YES;
+
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -72,15 +112,38 @@ static NSString * const detailSegueName = @"RunDetails";
 
 - (IBAction)startPressed:(id)sender
 {
+    if (self.isActivityStarted == NO) {
+        [self startAction];
+    } else {
+        [self stopAction];
+    }
+}
+
+- (void)startAction
+{
     // hide the start UI
-    self.startButton.hidden = YES;
+    //self.startButton.hidden = YES;
     self.promptLabel.hidden = YES;
+    
+    // set pace timer
+    [self.usePacerSwitch setEnabled:NO];
+    
+    if (self.isPacerOn) {
+        self.paceWalkTimeSeconds = 30;
+        self.intervalTimeLabel.text = [NSString stringWithFormat:@"Interval Time: 00:%d",self.paceWalkTimeSeconds];
+        self.paceCountSeconds = self.paceWalkTimeSeconds;
+        self.isWalking = YES;
+        self.intervalTimeLabel.hidden = NO;
+    }
     
     // show the running UI
     self.timeLabel.hidden = NO;
     self.distLabel.hidden = NO;
     self.paceLabel.hidden = NO;
-    self.stopButton.hidden = NO;
+    
+    // Show as stop button
+    [self.startButton setTitle:@"Stop" forState:UIControlStateNormal];
+    self.startButton.backgroundColor = [UIColor redColor];
     
     // Start location and time
     self.seconds = 0;
@@ -88,13 +151,82 @@ static NSString * const detailSegueName = @"RunDetails";
     self.locations = [NSMutableArray array];
     self.timer = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self selector:@selector(eachSecond) userInfo:nil repeats:YES];
     [self startLocationUpdates];
+    
+    self.mapView.hidden = NO;
+    
+    // set the running state
+    self.isActivityStarted = YES;
 }
 
-- (IBAction)stopPressed:(id)sender
+- (void)stopAction
 {
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Save",@"Discard", nil];
     actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
     [actionSheet showInView:self.view];
+}
+
+#pragma mark - Pacer Switch
+
+- (IBAction)switchChanged:(id)sender
+{
+    if ([sender isOn]) {
+        [self showPickerView];
+        self.isPacerOn = YES;
+    } else {
+        self.isPacerOn = NO;
+    }
+}
+
+- (IBAction)pickerDoneButton:(id)sender {
+    [self hidePickerView];
+}
+
+- (void)showPickerView
+{
+    self.PopUpPickerView.hidden = NO;
+    self.pickerView.hidden = NO;
+    self.doneButton.hidden = NO;
+}
+
+- (void)hidePickerView
+{
+    self.PopUpPickerView.hidden = YES;
+    self.pickerView.hidden = YES;
+    self.doneButton.hidden = YES;
+}
+
+
+
+#pragma mark - PickerView
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return 2;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    return _pickerData.count;
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    return [NSString stringWithFormat:@"%@", _pickerData[row]];
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    // This method is triggered whenever the user makes a change to the picker selection.
+    // The parameter named row and component represents what was selected.
+    
+    switch (component) {
+        case 0:
+            self.paceWalkTimeSeconds = (int)_pickerData[row];
+            break;
+        case 1:
+            self.paceRunTimeSeconds = (int)_pickerData[row];
+        default:
+            break;
+    }
 }
 
 #pragma mark - Saving
@@ -150,9 +282,29 @@ static NSString * const detailSegueName = @"RunDetails";
 - (void)eachSecond
 {
     self.seconds++;
+    
     self.timeLabel.text = [NSString stringWithFormat:@"Time: %@", [MathController stringifySecondCount:self.seconds usingLongFormat:NO]];
     self.distLabel.text = [NSString stringWithFormat:@"Distance: %@", [MathController stringifyDistance:self.distance]];
     self.paceLabel.text = [NSString stringWithFormat:@"Pace: %@", [MathController stringifyAvgPaceFromDist:self.distance overTime:self.seconds]];
+    
+    // check pacer if enabled
+    if (self.isPacerOn) {
+        [self checkPacer];
+        self.intervalTimeLabel.text = [NSString stringWithFormat:@"Interval Time: 00:%d",self.paceCountSeconds];
+    }
+    
+}
+
+- (void)checkPacer
+{
+    // decrement pacer count, check if less than 0, switch count if is, and buzz phone, then reset to next count
+    self.paceCountSeconds--;
+    // buzz phone every ? seconds for pacer, if enabled
+    if (self.isWalking) {
+        //AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+    }
+    
+    
 }
 
 #pragma mark - Locations
@@ -179,16 +331,44 @@ static NSString * const detailSegueName = @"RunDetails";
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
     for (CLLocation *newLocation in locations) {
-        if (newLocation.horizontalAccuracy < 20) {
+ 
+        NSDate *eventDate = newLocation.timestamp;
+        
+        NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
+        
+        if (abs(howRecent) < 10.0 && newLocation.horizontalAccuracy < 20) {
             
             // Update distance
             if (self.locations.count > 0) {
                 self.distance += [newLocation distanceFromLocation:self.locations.lastObject];
+                
+                CLLocationCoordinate2D coords[2];
+                coords[0] = ((CLLocation *)self.locations.lastObject).coordinate;
+                coords[1] = newLocation.coordinate;
+                
+                MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(newLocation.coordinate, 500, 500);
+                [self.mapView setRegion:region animated:YES];
+                
+                [self.mapView addOverlay:[MKPolyline polylineWithCoordinates:coords count:2]];
             }
             
             [self.locations addObject:newLocation];
-        }
+        }        
     }
+}
+
+#pragma mark - MapView
+
+- (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay
+{
+    if ([overlay isKindOfClass:[MKPolyline class]]) {
+        MKPolyline *polyLine = (MKPolyline *)overlay;
+        MKPolylineRenderer *aRenderer = [[MKPolylineRenderer alloc] initWithPolyline:polyLine];
+        aRenderer.strokeColor = [UIColor blueColor];
+        aRenderer.lineWidth = 3;
+        return aRenderer;
+    }
+    return nil;
 }
 
 @end
