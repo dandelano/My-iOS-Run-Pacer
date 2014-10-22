@@ -17,17 +17,26 @@
 
 static NSString * const detailSegueName = @"RunDetails";
 
-@interface NewRunViewController () <UIActionSheetDelegate, CLLocationManagerDelegate, MKMapViewDelegate, UIPickerViewDelegate,UIPickerViewDataSource>
+@interface NewRunViewController () <UIActionSheetDelegate, CLLocationManagerDelegate, MKMapViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
 
 // Flag for is app started
 @property BOOL isActivityStarted;
 
-// Pace buzzer feature
+// Pace buzzer feature flag
 @property BOOL isPacerOn;
+
+// is walking or running interval
 @property BOOL isWalking;
+
+// Holds values for interval times
 @property int paceWalkTimeSeconds;
 @property int paceRunTimeSeconds;
+
+// Used for countdown, and display
 @property int paceCountSeconds;
+@property NSString *intervalMsg;
+
+// Array of interval time values
 @property NSArray *pickerData;
 
 // MapView
@@ -64,13 +73,19 @@ static NSString * const detailSegueName = @"RunDetails";
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+        
     self.isActivityStarted = NO;
     
     // set pace timer
     self.isPacerOn = NO;
     
     _pickerData = @[@30,@60,@90];
+    
+    // Set the initial values
+    self.paceWalkTimeSeconds = 30;
+    self.paceRunTimeSeconds = 30;
+    
+    self.intervalMsg = @"Walking";
     
     self.pickerView.dataSource = self;
     self.pickerView.delegate = self;
@@ -89,7 +104,7 @@ static NSString * const detailSegueName = @"RunDetails";
     
     // Show as start button
     [self.startButton setTitle:@"Start" forState:UIControlStateNormal];
-    self.startButton.backgroundColor = [UIColor greenColor];
+    self.startButton.backgroundColor = [UIColor colorWithRed:0/255.0f green:146/255.0f blue:69/255.0f alpha:1.0f];
     self.startButton.hidden = NO;
     
     self.promptLabel.hidden = NO;
@@ -99,7 +114,8 @@ static NSString * const detailSegueName = @"RunDetails";
     self.distLabel.hidden = YES;
     self.paceLabel.hidden = YES;
     self.intervalTimeLabel.hidden = YES;
-
+    
+    [self.usePacerSwitch setEnabled:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -129,8 +145,7 @@ static NSString * const detailSegueName = @"RunDetails";
     [self.usePacerSwitch setEnabled:NO];
     
     if (self.isPacerOn) {
-        self.paceWalkTimeSeconds = 30;
-        self.intervalTimeLabel.text = [NSString stringWithFormat:@"Interval Time: 00:%d",self.paceWalkTimeSeconds];
+        self.intervalTimeLabel.text = [NSString stringWithFormat:@"Interval Time: 00:%02i %@",self.paceWalkTimeSeconds, self.intervalMsg];
         self.paceCountSeconds = self.paceWalkTimeSeconds;
         self.isWalking = YES;
         self.intervalTimeLabel.hidden = NO;
@@ -177,6 +192,8 @@ static NSString * const detailSegueName = @"RunDetails";
     }
 }
 
+#pragma mark - PickerView done button
+
 - (IBAction)pickerDoneButton:(id)sender {
     [self hidePickerView];
 }
@@ -210,20 +227,28 @@ static NSString * const detailSegueName = @"RunDetails";
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    return [NSString stringWithFormat:@"%@", _pickerData[row]];
+    NSString *title;
+    switch (component) {
+        case 0:
+            title = [NSString stringWithFormat:@"%@ Sec Walk", _pickerData[row]];
+            break;
+        case 1:
+            title = [NSString stringWithFormat:@"%@ Sec Run", _pickerData[row]];
+        default:
+            break;
+    }
+    return title;
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    // This method is triggered whenever the user makes a change to the picker selection.
-    // The parameter named row and component represents what was selected.
-    
+    // component is the column
     switch (component) {
         case 0:
-            self.paceWalkTimeSeconds = (int)_pickerData[row];
+            self.paceWalkTimeSeconds = [(NSNumber *)_pickerData[row] intValue];
             break;
         case 1:
-            self.paceRunTimeSeconds = (int)_pickerData[row];
+            self.paceRunTimeSeconds = [(NSNumber *)_pickerData[row] intValue];
         default:
             break;
     }
@@ -290,21 +315,47 @@ static NSString * const detailSegueName = @"RunDetails";
     // check pacer if enabled
     if (self.isPacerOn) {
         [self checkPacer];
-        self.intervalTimeLabel.text = [NSString stringWithFormat:@"Interval Time: 00:%d",self.paceCountSeconds];
+        self.intervalTimeLabel.text = [NSString stringWithFormat:@"Interval Time: 00:%02i %@",self.paceCountSeconds, self.intervalMsg];
     }
     
 }
 
 - (void)checkPacer
 {
-    // decrement pacer count, check if less than 0, switch count if is, and buzz phone, then reset to next count
+    // decrement pacer count
     self.paceCountSeconds--;
-    // buzz phone every ? seconds for pacer, if enabled
-    if (self.isWalking) {
-        //AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+    
+    // check if less than 0
+    if (self.paceCountSeconds <= 0) {
+        //buzz phone
+        [self vibratePhone];
+        //AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
+
+        // switch walking/running and reset to next count
+        if (self.isWalking) {
+            self.isWalking = NO;
+            self.intervalMsg = @"Running";
+            self.paceCountSeconds = self.paceRunTimeSeconds;
+        } else {
+            self.isWalking = YES;
+            self.intervalMsg = @"Walking";
+            self.paceCountSeconds = self.paceWalkTimeSeconds;
+        }
     }
-    
-    
+}
+
+- (void)vibratePhone;
+{
+    if([[UIDevice currentDevice].model isEqualToString:@"iPhone"])
+    {
+        AudioServicesPlaySystemSound (1352); //works ALWAYS as of this post
+    }
+    else
+    {
+        // Not an iPhone, so doesn't have vibrate
+        // play the less annoying tick noise or one of your own
+        AudioServicesPlayAlertSound (1105);
+    }
 }
 
 #pragma mark - Locations

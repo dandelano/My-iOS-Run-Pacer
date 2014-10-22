@@ -26,10 +26,9 @@
 	<string>MyRunPacer requests your location to log your run.</string>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>audio</string>
 		<string>location</string>
 	</array>
-	<key>UILaunchStoryboardName</key>
-	<string>Main</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>

@@ -11,6 +11,9 @@
 
 @interface HomeViewController ()
 
+@property (weak, nonatomic) IBOutlet UIButton *nRunBtn;
+@property (weak, nonatomic) IBOutlet UIButton *pRunBtn;
+
 @end
 
 @implementation HomeViewController
@@ -18,6 +21,22 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    self.nRunBtn.backgroundColor = [UIColor colorWithRed:0/255.0f green:146/255.0f blue:69/255.0f alpha:1.0f];
+    
+    self.pRunBtn.backgroundColor = [UIColor colorWithRed:39/255.0f green:88/255.0f blue:130/255.0f alpha:1.0f];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
 }
 
 - (void)didReceiveMemoryWarning {
