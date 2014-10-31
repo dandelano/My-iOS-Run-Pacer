@@ -27,8 +27,7 @@
 - (SettingsDataObject*)settingsDataObject;
 {
     id<AppDelegateProtocol> theDelegate = (id<AppDelegateProtocol>) [UIApplication sharedApplication].delegate;
-    SettingsDataObject* theDataObject = (SettingsDataObject*) theDelegate.settingsDataObject;
-    return theDataObject;
+    return (SettingsDataObject*) theDelegate.settingsDataObject;
 }
 
 
