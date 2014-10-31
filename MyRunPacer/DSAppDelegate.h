@@ -8,14 +8,22 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
+#import "AppDelegateProtocol.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@class SettingsDataObject;
+
+@interface DSAppDelegate : UIResponder <UIApplicationDelegate, AppDelegateProtocol>
+{
+    SettingsDataObject* settingsDataObject;
+}
 
 @property (strong, nonatomic) UIWindow *window;
 
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+
+@property (nonatomic, retain) SettingsDataObject* settingsDataObject;
 
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;

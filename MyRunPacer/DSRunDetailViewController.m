@@ -6,14 +6,14 @@
 //  Copyright (c) 2014 Danny J. Delano Jr. All rights reserved.
 //
 
-#import "DetailViewController.h"
+#import "DSRunDetailViewController.h"
 #import <MapKit/MapKit.h>
 #import "MathController.h"
 #import "MulticolorPolylineSegment.h"
 #import "Run.h"
 #import "Location.h"
 
-@interface DetailViewController () <MKMapViewDelegate>
+@interface DSRunDetailViewController () <MKMapViewDelegate>
 
 @property (nonatomic, weak) IBOutlet MKMapView *mapView;
 @property (nonatomic, weak) IBOutlet UILabel *distanceLabel;
@@ -23,7 +23,7 @@
 
 @end
 
-@implementation DetailViewController
+@implementation DSRunDetailViewController
 
 #pragma mark - Managing the detail item
 
@@ -41,6 +41,7 @@
     
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateStyle:NSDateFormatterMediumStyle];
+    
     self.dateLabel.text = [formatter stringFromDate:self.run.timestamp];
     
     self.timeLabel.text = [NSString stringWithFormat:@"Time: %@",  [MathController stringifySecondCount:self.run.duration.intValue usingLongFormat:YES]];
@@ -53,7 +54,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStylePlain target:self action:@selector(popToRootViewController:)];
+    //self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStylePlain target:self action:@selector(popToRootViewController:)];
     [self configureView];
 }
 

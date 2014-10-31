@@ -10,7 +10,7 @@
 
 @class Run;
 
-@interface DetailViewController : UIViewController
+@interface DSRunDetailViewController : UIViewController
 
 @property (strong, nonatomic) Run *run;
 

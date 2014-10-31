@@ -6,18 +6,18 @@
 //  Copyright (c) 2014 Danny J. Delano Jr. All rights reserved.
 //
 
-#import "NewRunViewController.h"
+#import "DSNewRunViewController.h"
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
 #import <AudioToolbox/AudioToolbox.h>
-#import "DetailViewController.h"
+#import "DSRunDetailViewController.h"
 #import "MathController.h"
 #import "Run.h"
 #import "Location.h"
 
 static NSString * const detailSegueName = @"RunDetails";
 
-@interface NewRunViewController () <UIActionSheetDelegate, CLLocationManagerDelegate, MKMapViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
+@interface DSNewRunViewController () <UIActionSheetDelegate, CLLocationManagerDelegate, MKMapViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
 
 // Flag for is app started
 @property BOOL isActivityStarted;
@@ -68,7 +68,7 @@ static NSString * const detailSegueName = @"RunDetails";
 
 @end
 
-@implementation NewRunViewController
+@implementation DSNewRunViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -299,7 +299,9 @@ static NSString * const detailSegueName = @"RunDetails";
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    [[segue destinationViewController] setRun:self.run];
+    if ([[segue identifier] isEqualToString:detailSegueName]) {
+        [[segue destinationViewController] setRun:self.run];
+    }
 }
 
 #pragma mark - Timer

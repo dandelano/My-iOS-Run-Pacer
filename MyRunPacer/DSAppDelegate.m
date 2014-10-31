@@ -6,22 +6,29 @@
 //  Copyright (c) 2014 Danny J. Delano Jr. All rights reserved.
 //
 
-#import "AppDelegate.h"
-#import "DetailViewController.h"
-#import "HomeViewController.h"
+#import "DSAppDelegate.h"
+#import "AppDelegateProtocol.h"
+#import "SettingsDataObject.h"
+#import "DSRunDetailViewController.h"
+#import "DSHomeViewController.h"
 
-@interface AppDelegate ()
+@interface DSAppDelegate ()
 
 @end
 
-@implementation AppDelegate
+@implementation DSAppDelegate
 
+@synthesize settingsDataObject;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
-    HomeViewController *controller = (HomeViewController *)navigationController.topViewController;
-    controller.managedObjectContext = self.managedObjectContext;
+    //UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
+    //HomeViewController *controller = (HomeViewController *)navigationController.topViewController;
+    //controller.managedObjectContext = self.managedObjectContext;
+    
+    self.settingsDataObject = [[SettingsDataObject alloc] init];
+    self.settingsDataObject.managedObjectContext = self.managedObjectContext;
+    
     return YES;
 }
 
