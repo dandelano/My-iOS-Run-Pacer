@@ -7,16 +7,16 @@
 //
 
 #import "DSPastRunTableViewController.h"
+#import "DSRunDetailTableViewController.h"
 #import "AppDelegateProtocol.h"
 #import "SettingsDataObject.h"
-#import "DSRunDetailViewController.h"
 #import "DSPastRunTableViewCell.h"
 #import "MathController.h"
 #import "Run.h"
 
 // NOTE: This method of caching the formatter does not account for a change in locale
 static NSDateFormatter *formatter = nil;
-static NSString * const detailSegueName = @"RunDetail@NewRun";
+static NSString * const detailSegueName = @"RunDetail@Home";
 
 @interface DSPastRunTableViewController ()
 

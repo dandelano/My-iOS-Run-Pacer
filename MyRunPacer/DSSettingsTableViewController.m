@@ -7,21 +7,43 @@
 //
 
 #import "DSSettingsTableViewController.h"
+#import "AppDelegateProtocol.h"
+#import "SettingsDataObject.h"
 
-@interface DSSettingsTableViewController ()
+// TODO: Implement setting and getting of user settings
+
+@interface DSSettingsTableViewController () <UITextFieldDelegate>
+
+@property (weak,nonatomic) SettingsDataObject *settingsDataObj;
+
+@property (weak, nonatomic) IBOutlet UITableViewCell *distanceUnitCell;
+@property (weak, nonatomic) IBOutlet UISwitch *useIntervalTimerSwitch;
+@property (weak, nonatomic) IBOutlet UITableViewCell *walkIntervalCell;
+@property (weak, nonatomic) IBOutlet UITableViewCell *runIntervalCell;
+@property (weak, nonatomic) IBOutlet UITableViewCell *dobCell;
+@property (weak, nonatomic) IBOutlet UITableViewCell *genderCell;
+
+@property (weak, nonatomic) IBOutlet UITextField *nameTxtField;
 
 @end
 
 @implementation DSSettingsTableViewController
 
+- (SettingsDataObject*)settingsDataObject
+{
+    id<AppDelegateProtocol> theDelegate = (id<AppDelegateProtocol>) [UIApplication sharedApplication].delegate;
+    return (SettingsDataObject*) theDelegate.settingsDataObject;
+}
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
+    self.settingsDataObj = [self settingsDataObject];
     
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.nameTxtField.delegate = self;
+    
+    self.nameTxtField.text = [self.settingsDataObj fullname];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -29,72 +51,25 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
-    return 0;
-}
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
-    return 0;
-}
+//- (BOOL)textFieldShouldReturn:(UITextField *)textField
+//{
+//    [self.view endEditing:YES];
+//    return YES;
+//}
 
-/*
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
-    
-    // Configure the cell...
-    
-    return cell;
-}
-*/
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
     return YES;
 }
-*/
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
+// It is important for you to hide kwyboard
 
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
     return YES;
 }
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

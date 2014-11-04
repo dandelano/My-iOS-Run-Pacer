@@ -1,8 +1,8 @@
 //
-//  DetailViewController.h
+//  DSRunDetailTableViewController.h
 //  MyRunPacer
 //
-//  Created by Danny J. Delano Jr. on 10/17/14.
+//  Created by Danny J. Delano Jr. on 11/3/14.
 //  Copyright (c) 2014 Danny J. Delano Jr. All rights reserved.
 //
 
@@ -10,9 +10,8 @@
 
 @class Run;
 
-@interface DSRunDetailViewController : UIViewController
+@interface DSRunDetailTableViewController : UITableViewController
 
 @property (strong, nonatomic) Run *run;
 
 @end
-

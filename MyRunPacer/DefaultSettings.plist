@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>isMetric</key>
+	<false/>
+	<key>useIntervalTimer</key>
+	<false/>
+	<key>intervalTimes</key>
+	<array>
+		<integer>30</integer>
+		<integer>45</integer>
+		<integer>60</integer>
+		<integer>90</integer>
+		<integer>120</integer>
+	</array>
+	<key>walkInterval</key>
+	<integer>0</integer>
+	<key>runInterval</key>
+	<integer>0</integer>
+	<key>name</key>
+	<string></string>
+	<key>dob</key>
+	<date>1983-11-23T17:59:59Z</date>
+	<key>gender</key>
+	<integer>0</integer>
+</dict>
+</plist>

@@ -9,8 +9,6 @@
 #import "DSAppDelegate.h"
 #import "AppDelegateProtocol.h"
 #import "SettingsDataObject.h"
-#import "DSRunDetailViewController.h"
-#import "DSHomeViewController.h"
 
 @interface DSAppDelegate ()
 
@@ -22,12 +20,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    //UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
-    //HomeViewController *controller = (HomeViewController *)navigationController.topViewController;
-    //controller.managedObjectContext = self.managedObjectContext;
     
     self.settingsDataObject = [[SettingsDataObject alloc] init];
-    self.settingsDataObject.managedObjectContext = self.managedObjectContext;
+    [self.settingsDataObject setManagedObjectContext:self.managedObjectContext];
+    [self.settingsDataObject registerDefaultSettings];
+    [self.settingsDataObject loadUserSettings];
     
     return YES;
 }

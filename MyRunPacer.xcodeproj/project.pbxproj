@@ -9,26 +9,25 @@
 /* Begin PBXBuildFile section */
 		4860EC6819F37140007D059B /* info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4860EC3D19F37140007D059B /* info@2x.png */; };
 		4860EC6D19F37140007D059B /* mapPin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4860EC4219F37140007D059B /* mapPin@2x.png */; };
-		4860EC8219F375D3007D059B /* DSHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4860EC8119F375D3007D059B /* DSHomeViewController.m */; };
-		4860EC8519F3765D007D059B /* DSNewRunViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4860EC8419F3765D007D059B /* DSNewRunViewController.m */; };
 		4860EC8819F55B74007D059B /* MathController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4860EC8719F55B74007D059B /* MathController.m */; };
+		48A75E8A1A09385000EF3975 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48A75E891A09385000EF3975 /* MapKit.framework */; };
+		48A75E901A094A2A00EF3975 /* DefaultSettings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 48A75E8F1A094A2A00EF3975 /* DefaultSettings.plist */; };
 		48C5D6EB19F1A42B001C0273 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 48C5D6EA19F1A42B001C0273 /* main.m */; };
 		48C5D6EE19F1A42B001C0273 /* DSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 48C5D6ED19F1A42B001C0273 /* DSAppDelegate.m */; };
 		48C5D6F119F1A42B001C0273 /* MyRunPacer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 48C5D6EF19F1A42B001C0273 /* MyRunPacer.xcdatamodeld */; };
-		48C5D6F719F1A42B001C0273 /* DSRunDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48C5D6F619F1A42B001C0273 /* DSRunDetailViewController.m */; };
 		48C5D6FA19F1A42B001C0273 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 48C5D6F819F1A42B001C0273 /* Home.storyboard */; };
 		48C5D6FC19F1A42B001C0273 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 48C5D6FB19F1A42B001C0273 /* Images.xcassets */; };
 		48C5D70B19F1A42C001C0273 /* MyRunPacerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 48C5D70A19F1A42C001C0273 /* MyRunPacerTests.m */; };
 		48C5D71619F1A5F3001C0273 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 48C5D71519F1A5F3001C0273 /* Location.m */; };
 		48C5D71919F1A5F4001C0273 /* Run.m in Sources */ = {isa = PBXBuildFile; fileRef = 48C5D71819F1A5F4001C0273 /* Run.m */; };
-		48C5D71D19F1A65B001C0273 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48C5D71C19F1A65B001C0273 /* MapKit.framework */; };
 		48EE082919F5F8980014C384 /* MulticolorPolylineSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = 48EE082819F5F8980014C384 /* MulticolorPolylineSegment.m */; };
 		48EE082B19F6CEB20014C384 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48EE082A19F6CEB20014C384 /* AudioToolbox.framework */; };
+		48F1A6211A0810510096514A /* DSRunDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48F1A6201A0810510096514A /* DSRunDetailTableViewController.m */; };
+		48F1A6241A0816730096514A /* DSNewRunTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48F1A6231A0816730096514A /* DSNewRunTableViewController.m */; };
 		48FC217A19F959AA00EA3965 /* DSPastRunTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48FC217919F959AA00EA3965 /* DSPastRunTableViewController.m */; };
 		48FC218019F991FB00EA3965 /* AppDataObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 48FC217F19F991FB00EA3965 /* AppDataObject.m */; };
 		48FC218419F992E700EA3965 /* SettingsDataObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 48FC218319F992E700EA3965 /* SettingsDataObject.m */; };
 		48FC21F919FDFEF200EA3965 /* DSLinkedStoryboardSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 48FC21F819FDFEF200EA3965 /* DSLinkedStoryboardSegue.m */; };
-		48FC21FE19FE00AF00EA3965 /* NewRun.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 48FC21FD19FE00AF00EA3965 /* NewRun.storyboard */; };
 		48FC220019FE00BC00EA3965 /* PastRun.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 48FC21FF19FE00BC00EA3965 /* PastRun.storyboard */; };
 		48FC222219FECE2D00EA3965 /* me.png in Resources */ = {isa = PBXBuildFile; fileRef = 48FC221F19FECE2D00EA3965 /* me.png */; };
 		48FC222319FECE2D00EA3965 /* run.png in Resources */ = {isa = PBXBuildFile; fileRef = 48FC222019FECE2D00EA3965 /* run.png */; };
@@ -51,20 +50,16 @@
 /* Begin PBXFileReference section */
 		4860EC3D19F37140007D059B /* info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "info@2x.png"; sourceTree = "<group>"; };
 		4860EC4219F37140007D059B /* mapPin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mapPin@2x.png"; sourceTree = "<group>"; };
-		4860EC8019F375D3007D059B /* DSHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSHomeViewController.h; sourceTree = "<group>"; };
-		4860EC8119F375D3007D059B /* DSHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSHomeViewController.m; sourceTree = "<group>"; };
-		4860EC8319F3765D007D059B /* DSNewRunViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSNewRunViewController.h; sourceTree = "<group>"; };
-		4860EC8419F3765D007D059B /* DSNewRunViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSNewRunViewController.m; sourceTree = "<group>"; };
 		4860EC8619F55B74007D059B /* MathController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MathController.h; sourceTree = "<group>"; };
 		4860EC8719F55B74007D059B /* MathController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MathController.m; sourceTree = "<group>"; };
+		48A75E891A09385000EF3975 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		48A75E8F1A094A2A00EF3975 /* DefaultSettings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DefaultSettings.plist; sourceTree = "<group>"; };
 		48C5D6E519F1A42B001C0273 /* MyRunPacer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyRunPacer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		48C5D6E919F1A42B001C0273 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		48C5D6EA19F1A42B001C0273 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		48C5D6EC19F1A42B001C0273 /* DSAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DSAppDelegate.h; sourceTree = "<group>"; };
 		48C5D6ED19F1A42B001C0273 /* DSAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DSAppDelegate.m; sourceTree = "<group>"; };
 		48C5D6F019F1A42B001C0273 /* MyRunPacer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyRunPacer.xcdatamodel; sourceTree = "<group>"; };
-		48C5D6F519F1A42B001C0273 /* DSRunDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DSRunDetailViewController.h; sourceTree = "<group>"; };
-		48C5D6F619F1A42B001C0273 /* DSRunDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DSRunDetailViewController.m; sourceTree = "<group>"; };
 		48C5D6F919F1A42B001C0273 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Home.storyboard; sourceTree = "<group>"; };
 		48C5D6FB19F1A42B001C0273 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		48C5D70419F1A42C001C0273 /* MyRunPacerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyRunPacerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -74,10 +69,13 @@
 		48C5D71519F1A5F3001C0273 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
 		48C5D71719F1A5F4001C0273 /* Run.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Run.h; sourceTree = "<group>"; };
 		48C5D71819F1A5F4001C0273 /* Run.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Run.m; sourceTree = "<group>"; };
-		48C5D71C19F1A65B001C0273 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		48EE082719F5F8980014C384 /* MulticolorPolylineSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MulticolorPolylineSegment.h; sourceTree = "<group>"; };
 		48EE082819F5F8980014C384 /* MulticolorPolylineSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MulticolorPolylineSegment.m; sourceTree = "<group>"; };
 		48EE082A19F6CEB20014C384 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		48F1A61F1A0810510096514A /* DSRunDetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSRunDetailTableViewController.h; sourceTree = "<group>"; };
+		48F1A6201A0810510096514A /* DSRunDetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSRunDetailTableViewController.m; sourceTree = "<group>"; };
+		48F1A6221A0816730096514A /* DSNewRunTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSNewRunTableViewController.h; sourceTree = "<group>"; };
+		48F1A6231A0816730096514A /* DSNewRunTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSNewRunTableViewController.m; sourceTree = "<group>"; };
 		48FC217819F959AA00EA3965 /* DSPastRunTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSPastRunTableViewController.h; sourceTree = "<group>"; };
 		48FC217919F959AA00EA3965 /* DSPastRunTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSPastRunTableViewController.m; sourceTree = "<group>"; };
 		48FC217E19F991FB00EA3965 /* AppDataObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDataObject.h; sourceTree = "<group>"; };
@@ -87,7 +85,6 @@
 		48FC218319F992E700EA3965 /* SettingsDataObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsDataObject.m; sourceTree = "<group>"; };
 		48FC21F719FDFEF200EA3965 /* DSLinkedStoryboardSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSLinkedStoryboardSegue.h; sourceTree = "<group>"; };
 		48FC21F819FDFEF200EA3965 /* DSLinkedStoryboardSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSLinkedStoryboardSegue.m; sourceTree = "<group>"; };
-		48FC21FD19FE00AF00EA3965 /* NewRun.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = NewRun.storyboard; sourceTree = "<group>"; };
 		48FC21FF19FE00BC00EA3965 /* PastRun.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = PastRun.storyboard; sourceTree = "<group>"; };
 		48FC221F19FECE2D00EA3965 /* me.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = me.png; sourceTree = "<group>"; };
 		48FC222019FECE2D00EA3965 /* run.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = run.png; sourceTree = "<group>"; };
@@ -105,8 +102,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48A75E8A1A09385000EF3975 /* MapKit.framework in Frameworks */,
 				48EE082B19F6CEB20014C384 /* AudioToolbox.framework in Frameworks */,
-				48C5D71D19F1A65B001C0273 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,6 +132,7 @@
 		48C5D6DC19F1A42B001C0273 = {
 			isa = PBXGroup;
 			children = (
+				48A75E891A09385000EF3975 /* MapKit.framework */,
 				48C5D6E719F1A42B001C0273 /* MyRunPacer */,
 				48C5D70719F1A42C001C0273 /* MyRunPacerTests */,
 				48C5D6E619F1A42B001C0273 /* Products */,
@@ -193,11 +191,11 @@
 		48C5D71A19F1A606001C0273 /* GUI */ = {
 			isa = PBXGroup;
 			children = (
+				48C5D6F819F1A42B001C0273 /* Home.storyboard */,
 				48FC220A19FE898700EA3965 /* Me */,
-				48FC217B19F9817600EA3965 /* Home */,
 				48FC21FB19FE009100EA3965 /* NewRun */,
 				48FC220319FE7EBE00EA3965 /* RunDetail */,
-				48FC21FC19FE009E00EA3965 /* PastRun */,
+				48FC21FC19FE009E00EA3965 /* PastRunTable */,
 				48FC21FA19FE004F00EA3965 /* Settings */,
 				48C5D6FB19F1A42B001C0273 /* Images.xcassets */,
 				48FC220119FE7B1200EA3965 /* Helpers */,
@@ -228,21 +226,10 @@
 			name = Utilities;
 			sourceTree = "<group>";
 		};
-		48FC217B19F9817600EA3965 /* Home */ = {
-			isa = PBXGroup;
-			children = (
-				48C5D6F819F1A42B001C0273 /* Home.storyboard */,
-				4860EC8019F375D3007D059B /* DSHomeViewController.h */,
-				4860EC8119F375D3007D059B /* DSHomeViewController.m */,
-			);
-			name = Home;
-			sourceTree = "<group>";
-		};
 		48FC217C19F9862200EA3965 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				48EE082A19F6CEB20014C384 /* AudioToolbox.framework */,
-				48C5D71C19F1A65B001C0273 /* MapKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -255,6 +242,7 @@
 				48FC218119F9926700EA3965 /* AppDelegateProtocol.h */,
 				48FC218219F992E700EA3965 /* SettingsDataObject.h */,
 				48FC218319F992E700EA3965 /* SettingsDataObject.m */,
+				48A75E8F1A094A2A00EF3975 /* DefaultSettings.plist */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -271,14 +259,13 @@
 		48FC21FB19FE009100EA3965 /* NewRun */ = {
 			isa = PBXGroup;
 			children = (
-				48FC21FD19FE00AF00EA3965 /* NewRun.storyboard */,
-				4860EC8319F3765D007D059B /* DSNewRunViewController.h */,
-				4860EC8419F3765D007D059B /* DSNewRunViewController.m */,
+				48F1A6221A0816730096514A /* DSNewRunTableViewController.h */,
+				48F1A6231A0816730096514A /* DSNewRunTableViewController.m */,
 			);
 			name = NewRun;
 			sourceTree = "<group>";
 		};
-		48FC21FC19FE009E00EA3965 /* PastRun */ = {
+		48FC21FC19FE009E00EA3965 /* PastRunTable */ = {
 			isa = PBXGroup;
 			children = (
 				48FC217819F959AA00EA3965 /* DSPastRunTableViewController.h */,
@@ -287,7 +274,7 @@
 				48FC22281A001A0700EA3965 /* DSPastRunTableViewCell.h */,
 				48FC22291A001A0700EA3965 /* DSPastRunTableViewCell.m */,
 			);
-			name = PastRun;
+			name = PastRunTable;
 			sourceTree = "<group>";
 		};
 		48FC220119FE7B1200EA3965 /* Helpers */ = {
@@ -304,8 +291,8 @@
 		48FC220319FE7EBE00EA3965 /* RunDetail */ = {
 			isa = PBXGroup;
 			children = (
-				48C5D6F519F1A42B001C0273 /* DSRunDetailViewController.h */,
-				48C5D6F619F1A42B001C0273 /* DSRunDetailViewController.m */,
+				48F1A61F1A0810510096514A /* DSRunDetailTableViewController.h */,
+				48F1A6201A0810510096514A /* DSRunDetailTableViewController.m */,
 			);
 			name = RunDetail;
 			sourceTree = "<group>";
@@ -372,6 +359,9 @@
 							com.apple.BackgroundModes = {
 								enabled = 1;
 							};
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
 						};
 					};
 					48C5D70319F1A42C001C0273 = {
@@ -406,10 +396,10 @@
 			files = (
 				48C5D6FA19F1A42B001C0273 /* Home.storyboard in Resources */,
 				48C5D6FC19F1A42B001C0273 /* Images.xcassets in Resources */,
-				48FC21FE19FE00AF00EA3965 /* NewRun.storyboard in Resources */,
 				4860EC6D19F37140007D059B /* mapPin@2x.png in Resources */,
 				4860EC6819F37140007D059B /* info@2x.png in Resources */,
 				48FC220019FE00BC00EA3965 /* PastRun.storyboard in Resources */,
+				48A75E901A094A2A00EF3975 /* DefaultSettings.plist in Resources */,
 				48FC222419FECE2D00EA3965 /* settings.png in Resources */,
 				48FC222219FECE2D00EA3965 /* me.png in Resources */,
 				48FC222319FECE2D00EA3965 /* run.png in Resources */,
@@ -431,22 +421,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				48FC218019F991FB00EA3965 /* AppDataObject.m in Sources */,
-				48C5D6F719F1A42B001C0273 /* DSRunDetailViewController.m in Sources */,
 				48FC218419F992E700EA3965 /* SettingsDataObject.m in Sources */,
 				48C5D71919F1A5F4001C0273 /* Run.m in Sources */,
 				48FC222F1A03288400EA3965 /* DSMeTableViewController.m in Sources */,
 				48FC22321A03289B00EA3965 /* DSSettingsTableViewController.m in Sources */,
 				48FC222B1A001A0700EA3965 /* DSPastRunTableViewCell.m in Sources */,
+				48F1A6241A0816730096514A /* DSNewRunTableViewController.m in Sources */,
 				4860EC8819F55B74007D059B /* MathController.m in Sources */,
 				48FC217A19F959AA00EA3965 /* DSPastRunTableViewController.m in Sources */,
 				48EE082919F5F8980014C384 /* MulticolorPolylineSegment.m in Sources */,
+				48F1A6211A0810510096514A /* DSRunDetailTableViewController.m in Sources */,
 				48FC21F919FDFEF200EA3965 /* DSLinkedStoryboardSegue.m in Sources */,
 				48C5D6EE19F1A42B001C0273 /* DSAppDelegate.m in Sources */,
 				48C5D6EB19F1A42B001C0273 /* main.m in Sources */,
 				48C5D71619F1A5F3001C0273 /* Location.m in Sources */,
-				4860EC8219F375D3007D059B /* DSHomeViewController.m in Sources */,
 				48C5D6F119F1A42B001C0273 /* MyRunPacer.xcdatamodeld in Sources */,
-				4860EC8519F3765D007D059B /* DSNewRunViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

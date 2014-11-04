@@ -1,23 +1,32 @@
 //
-//  NewRunViewController.m
+//  DSNewRunTableViewController.m
 //  MyRunPacer
 //
-//  Created by Danny J. Delano Jr. on 10/19/14.
+//  Created by Danny J. Delano Jr. on 11/3/14.
 //  Copyright (c) 2014 Danny J. Delano Jr. All rights reserved.
 //
 
-#import "DSNewRunViewController.h"
+#import "DSNewRunTableViewController.h"
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
 #import <AudioToolbox/AudioToolbox.h>
-#import "DSRunDetailViewController.h"
+#import "AppDelegateProtocol.h"
+#import "SettingsDataObject.h"
 #import "MathController.h"
 #import "Run.h"
 #import "Location.h"
 
+
+// TODO: Fix the state of view when stop button is pressed, and activity is discarded.
+// TODO: Incorporate user settings into functionality
+// TODO: Fix saving method
+// TODO: Fix Interval timer functionality
+
 static NSString * const detailSegueName = @"RunDetails";
 
-@interface DSNewRunViewController () <UIActionSheetDelegate, CLLocationManagerDelegate, MKMapViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
+@interface DSNewRunTableViewController () <UIActionSheetDelegate, CLLocationManagerDelegate, MKMapViewDelegate>
+
+@property (weak,nonatomic) SettingsDataObject *settingsDataObj;
 
 // Flag for is app started
 @property BOOL isActivityStarted;
@@ -36,9 +45,6 @@ static NSString * const detailSegueName = @"RunDetails";
 @property int paceCountSeconds;
 @property NSString *intervalMsg;
 
-// Array of interval time values
-@property NSArray *pickerData;
-
 // MapView
 @property (nonatomic, weak) IBOutlet MKMapView *mapView;
 
@@ -53,33 +59,32 @@ static NSString * const detailSegueName = @"RunDetails";
 @property (nonatomic, strong) Run *run;
 
 @property (nonatomic, weak) IBOutlet UILabel *promptLabel;
-@property (nonatomic, weak) IBOutlet UILabel *timeLabel;
-@property (nonatomic, weak) IBOutlet UILabel *distLabel;
-@property (nonatomic, weak) IBOutlet UILabel *paceLabel;
-@property (weak, nonatomic) IBOutlet UILabel *intervalTimeLabel;
 
-@property (nonatomic, weak) IBOutlet UIButton *startButton;
+@property (weak, nonatomic) IBOutlet UITableViewCell *distanceCell;
+@property (weak, nonatomic) IBOutlet UITableViewCell *timeCell;
+@property (weak, nonatomic) IBOutlet UITableViewCell *paceCell;
 @property (weak, nonatomic) IBOutlet UISwitch *usePacerSwitch;
-
-// Pacer time picker
-@property (weak, nonatomic) IBOutlet UIView *PopUpPickerView;
-@property (weak, nonatomic) IBOutlet UIButton *doneButton;
-@property (weak, nonatomic) IBOutlet UIPickerView *pickerView;
+@property (weak, nonatomic) IBOutlet UITableViewCell *intervalTimeCell;
+@property (nonatomic, weak) IBOutlet UIButton *startButton;
 
 @end
 
-@implementation DSNewRunViewController
+@implementation DSNewRunTableViewController
+
+- (SettingsDataObject*)settingsDataObject;
+{
+    id<AppDelegateProtocol> theDelegate = (id<AppDelegateProtocol>) [UIApplication sharedApplication].delegate;
+    return (SettingsDataObject*) theDelegate.settingsDataObject;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.settingsDataObj = [self settingsDataObject];
     // Do any additional setup after loading the view.
-        
     self.isActivityStarted = NO;
     
     // set pace timer
     self.isPacerOn = NO;
-    
-    _pickerData = @[@30,@60,@90];
     
     // Set the initial values
     self.paceWalkTimeSeconds = 30;
@@ -87,8 +92,6 @@ static NSString * const detailSegueName = @"RunDetails";
     
     self.intervalMsg = @"Walking";
     
-    self.pickerView.dataSource = self;
-    self.pickerView.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -109,11 +112,14 @@ static NSString * const detailSegueName = @"RunDetails";
     
     self.promptLabel.hidden = NO;
     
-    self.timeLabel.text = @"Time: 00:00";
-    self.timeLabel.hidden = YES;
-    self.distLabel.hidden = YES;
-    self.paceLabel.hidden = YES;
-    self.intervalTimeLabel.hidden = YES;
+    self.timeCell.detailTextLabel.hidden = YES;
+    self.distanceCell.detailTextLabel.hidden = YES;
+    self.paceCell.detailTextLabel.hidden = YES;
+    
+    if (self.isPacerOn == NO)
+        self.intervalTimeCell.hidden = YES;
+    else
+        self.intervalTimeCell.hidden = NO;
     
     [self.usePacerSwitch setEnabled:YES];
 }
@@ -145,16 +151,16 @@ static NSString * const detailSegueName = @"RunDetails";
     [self.usePacerSwitch setEnabled:NO];
     
     if (self.isPacerOn) {
-        self.intervalTimeLabel.text = [NSString stringWithFormat:@"Interval Time: 00:%02i %@",self.paceWalkTimeSeconds, self.intervalMsg];
+        self.intervalTimeCell.detailTextLabel.text = [NSString stringWithFormat:@"00:%02i %@",self.paceWalkTimeSeconds, self.intervalMsg];
         self.paceCountSeconds = self.paceWalkTimeSeconds;
         self.isWalking = YES;
-        self.intervalTimeLabel.hidden = NO;
+        self.intervalTimeCell.hidden = NO;
     }
     
     // show the running UI
-    self.timeLabel.hidden = NO;
-    self.distLabel.hidden = NO;
-    self.paceLabel.hidden = NO;
+    self.distanceCell.detailTextLabel.hidden = NO;
+    self.timeCell.detailTextLabel.hidden = NO;
+    self.paceCell.detailTextLabel.hidden = NO;
     
     // Show as stop button
     [self.startButton setTitle:@"Stop" forState:UIControlStateNormal];
@@ -185,72 +191,11 @@ static NSString * const detailSegueName = @"RunDetails";
 - (IBAction)switchChanged:(id)sender
 {
     if ([sender isOn]) {
-        [self showPickerView];
         self.isPacerOn = YES;
+        self.intervalTimeCell.hidden = NO;
     } else {
         self.isPacerOn = NO;
-    }
-}
-
-#pragma mark - PickerView done button
-
-- (IBAction)pickerDoneButton:(id)sender {
-    [self hidePickerView];
-}
-
-- (void)showPickerView
-{
-    self.PopUpPickerView.hidden = NO;
-    self.pickerView.hidden = NO;
-    self.doneButton.hidden = NO;
-}
-
-- (void)hidePickerView
-{
-    self.PopUpPickerView.hidden = YES;
-    self.pickerView.hidden = YES;
-    self.doneButton.hidden = YES;
-}
-
-
-
-#pragma mark - PickerView
-
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
-{
-    return 2;
-}
-
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
-{
-    return _pickerData.count;
-}
-
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    NSString *title;
-    switch (component) {
-        case 0:
-            title = [NSString stringWithFormat:@"%@ Sec Walk", _pickerData[row]];
-            break;
-        case 1:
-            title = [NSString stringWithFormat:@"%@ Sec Run", _pickerData[row]];
-        default:
-            break;
-    }
-    return title;
-}
-
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
-{
-    // component is the column
-    switch (component) {
-        case 0:
-            self.paceWalkTimeSeconds = [(NSNumber *)_pickerData[row] intValue];
-            break;
-        case 1:
-            self.paceRunTimeSeconds = [(NSNumber *)_pickerData[row] intValue];
-        default:
-            break;
+        self.intervalTimeCell.hidden = YES;
     }
 }
 
@@ -262,7 +207,7 @@ static NSString * const detailSegueName = @"RunDetails";
     if (buttonIndex == 0) {
         [self saveRun]; // Added the saveRun function
         [self performSegueWithIdentifier:detailSegueName sender:nil];
-    // discard
+        // discard
     } else if (buttonIndex == 1) {
         [self.navigationController popToRootViewControllerAnimated:YES];
     }
@@ -270,14 +215,14 @@ static NSString * const detailSegueName = @"RunDetails";
 
 - (void)saveRun
 {
-    Run *newRun = [NSEntityDescription insertNewObjectForEntityForName:@"Run" inManagedObjectContext:self.managedObjectContext];
+    Run *newRun = [NSEntityDescription insertNewObjectForEntityForName:@"Run" inManagedObjectContext:self.settingsDataObj.managedObjectContext];
     newRun.distance = [NSNumber numberWithFloat:self.distance];
     newRun.duration = [NSNumber numberWithInt:self.seconds];
     newRun.timestamp = [NSDate date];
     
     NSMutableArray *locationArray = [NSMutableArray array];
     for (CLLocation *location in self.locations) {
-        Location *locationObject = [NSEntityDescription insertNewObjectForEntityForName:@"Location" inManagedObjectContext:self.managedObjectContext];
+        Location *locationObject = [NSEntityDescription insertNewObjectForEntityForName:@"Location" inManagedObjectContext:self.settingsDataObj.managedObjectContext];
         
         locationObject.timestamp = location.timestamp;
         locationObject.latitude = [NSNumber numberWithDouble:location.coordinate.latitude];
@@ -290,7 +235,7 @@ static NSString * const detailSegueName = @"RunDetails";
     
     // save the context
     NSError *error = nil;
-    if (![self.managedObjectContext save:&error]) {
+    if (![self.settingsDataObj.managedObjectContext save:&error]) {
         NSLog(@"Unresolved error %@, %@",error, [error userInfo]);
         abort();
     }
@@ -310,14 +255,14 @@ static NSString * const detailSegueName = @"RunDetails";
 {
     self.seconds++;
     
-    self.timeLabel.text = [NSString stringWithFormat:@"Time: %@", [MathController stringifySecondCount:self.seconds usingLongFormat:NO]];
-    self.distLabel.text = [NSString stringWithFormat:@"Distance: %@", [MathController stringifyDistance:self.distance]];
-    self.paceLabel.text = [NSString stringWithFormat:@"Pace: %@", [MathController stringifyAvgPaceFromDist:self.distance overTime:self.seconds]];
+    self.timeCell.detailTextLabel.text = [NSString stringWithFormat:@"%@", [MathController stringifySecondCount:self.seconds usingLongFormat:NO]];
+    self.distanceCell.detailTextLabel.text = [NSString stringWithFormat:@"%@", [MathController stringifyDistance:self.distance]];
+    self.paceCell.detailTextLabel.text = [NSString stringWithFormat:@"%@", [MathController stringifyAvgPaceFromDist:self.distance overTime:self.seconds]];
     
     // check pacer if enabled
     if (self.isPacerOn) {
         [self checkPacer];
-        self.intervalTimeLabel.text = [NSString stringWithFormat:@"Interval Time: 00:%02i %@",self.paceCountSeconds, self.intervalMsg];
+        self.intervalTimeCell.detailTextLabel.text = [NSString stringWithFormat:@"00:%02i %@",self.paceCountSeconds, self.intervalMsg];
     }
     
 }
@@ -332,7 +277,7 @@ static NSString * const detailSegueName = @"RunDetails";
         //buzz phone
         [self vibratePhone];
         //AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
-
+        
         // switch walking/running and reset to next count
         if (self.isWalking) {
             self.isWalking = NO;
@@ -384,7 +329,7 @@ static NSString * const detailSegueName = @"RunDetails";
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
     for (CLLocation *newLocation in locations) {
- 
+        
         NSDate *eventDate = newLocation.timestamp;
         
         NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
@@ -406,7 +351,7 @@ static NSString * const detailSegueName = @"RunDetails";
             }
             
             [self.locations addObject:newLocation];
-        }        
+        }
     }
 }
 
@@ -423,5 +368,6 @@ static NSString * const detailSegueName = @"RunDetails";
     }
     return nil;
 }
+
 
 @end
