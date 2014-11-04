@@ -17,6 +17,8 @@ static float const metersInMile = 1609.344;
 
 @implementation MathController
 
+// TODO: Implement user settings for isMetric
+
 + (NSString *)stringifyDistance:(float)meters
 {
     float unitDivider;
