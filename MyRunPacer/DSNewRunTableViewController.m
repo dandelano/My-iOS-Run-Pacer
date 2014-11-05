@@ -86,7 +86,11 @@ static NSString * const detailSegueName = @"RunDetails";
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    // Have to get switch setting everytime because of sync with settings
     self.isIntervalTimerOn = [self.settingsDataObj useIntervalTimer];
+    [self.useIntervalTimerSwitch setOn:self.isIntervalTimerOn];
+    // If switch is YES, cell.hidden is NO
+    self.intervalTimeCell.hidden = !self.isIntervalTimerOn;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -119,7 +123,7 @@ static NSString * const detailSegueName = @"RunDetails";
     self.paceCell.detailTextLabel.hidden = YES;
     
     // set pace timer
-    //self.isIntervalTimerOn = [self.settingsDataObj useIntervalTimer];
+    self.isIntervalTimerOn = [self.settingsDataObj useIntervalTimer];
     [self.useIntervalTimerSwitch setEnabled:YES];
     [self.useIntervalTimerSwitch setOn: self.isIntervalTimerOn];
     
