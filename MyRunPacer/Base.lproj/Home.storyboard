@@ -1239,7 +1239,7 @@
                         <outlet property="promptLabel" destination="haF-19-MTX" id="WKu-UP-WkY"/>
                         <outlet property="startButton" destination="Pg2-2K-13l" id="cUD-HG-L87"/>
                         <outlet property="timeCell" destination="oRA-29-Op1" id="df4-hd-fXT"/>
-                        <outlet property="usePacerSwitch" destination="muJ-sG-HJv" id="Rhz-QH-6B9"/>
+                        <outlet property="useIntervalTimerSwitch" destination="muJ-sG-HJv" id="yCp-Wp-y1I"/>
                         <segue destination="Zi7-zK-452" kind="show" identifier="RunDetails" id="pVE-PU-Cqa"/>
                     </connections>
                 </tableViewController>

@@ -26,13 +26,13 @@ static NSString * const detailSegueName = @"RunDetails";
 
 @interface DSNewRunTableViewController () <UIActionSheetDelegate, CLLocationManagerDelegate, MKMapViewDelegate>
 
-@property (weak,nonatomic) SettingsDataObject *settingsDataObj;
+@property (nonatomic, weak) SettingsDataObject *settingsDataObj;
 
 // Flag for is app started
 @property BOOL isActivityStarted;
 
 // Pace buzzer feature flag
-@property BOOL isPacerOn;
+@property BOOL isIntervalTimerOn;
 
 // is walking or running interval
 @property BOOL isWalking;
@@ -59,12 +59,11 @@ static NSString * const detailSegueName = @"RunDetails";
 @property (nonatomic, strong) Run *run;
 
 @property (nonatomic, weak) IBOutlet UILabel *promptLabel;
-
-@property (weak, nonatomic) IBOutlet UITableViewCell *distanceCell;
-@property (weak, nonatomic) IBOutlet UITableViewCell *timeCell;
-@property (weak, nonatomic) IBOutlet UITableViewCell *paceCell;
-@property (weak, nonatomic) IBOutlet UISwitch *usePacerSwitch;
-@property (weak, nonatomic) IBOutlet UITableViewCell *intervalTimeCell;
+@property (nonatomic, weak) IBOutlet UITableViewCell *distanceCell;
+@property (nonatomic, weak) IBOutlet UITableViewCell *timeCell;
+@property (nonatomic, weak) IBOutlet UITableViewCell *paceCell;
+@property (nonatomic, weak) IBOutlet UISwitch *useIntervalTimerSwitch;
+@property (nonatomic, weak) IBOutlet UITableViewCell *intervalTimeCell;
 @property (nonatomic, weak) IBOutlet UIButton *startButton;
 
 @end
@@ -84,11 +83,12 @@ static NSString * const detailSegueName = @"RunDetails";
     self.isActivityStarted = NO;
     
     // set pace timer
-    self.isPacerOn = NO;
+    self.isIntervalTimerOn = [self.settingsDataObj useIntervalTimer];
+    [self.useIntervalTimerSwitch setOn: [self.settingsDataObj useIntervalTimer]];
     
     // Set the initial values
-    self.paceWalkTimeSeconds = 30;
-    self.paceRunTimeSeconds = 30;
+    self.paceWalkTimeSeconds = [(NSNumber *)[[self.settingsDataObj intervalTimes] objectAtIndex:[self.settingsDataObj walkInterval]] intValue];
+    self.paceRunTimeSeconds = [(NSNumber *)[[self.settingsDataObj intervalTimes] objectAtIndex:[self.settingsDataObj runInterval]] intValue];
     
     self.intervalMsg = @"Walking";
     
@@ -102,7 +102,19 @@ static NSString * const detailSegueName = @"RunDetails";
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+    [self setDefaultViewState];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    //[self.timer invalidate];
+}
+
+#pragma mark - Default States
+
+- (void)setDefaultViewState
+{
     self.mapView.hidden = YES;
     
     // Show as start button
@@ -116,18 +128,12 @@ static NSString * const detailSegueName = @"RunDetails";
     self.distanceCell.detailTextLabel.hidden = YES;
     self.paceCell.detailTextLabel.hidden = YES;
     
-    if (self.isPacerOn == NO)
+    if (self.isIntervalTimerOn == NO)
         self.intervalTimeCell.hidden = YES;
     else
         self.intervalTimeCell.hidden = NO;
     
-    [self.usePacerSwitch setEnabled:YES];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [self.timer invalidate];
+    [self.useIntervalTimerSwitch setEnabled:YES];
 }
 
 #pragma mark - Button Actions
@@ -148,9 +154,9 @@ static NSString * const detailSegueName = @"RunDetails";
     self.promptLabel.hidden = YES;
     
     // set pace timer
-    [self.usePacerSwitch setEnabled:NO];
+    [self.useIntervalTimerSwitch setEnabled:NO];
     
-    if (self.isPacerOn) {
+    if (self.isIntervalTimerOn) {
         self.intervalTimeCell.detailTextLabel.text = [NSString stringWithFormat:@"00:%02i %@",self.paceWalkTimeSeconds, self.intervalMsg];
         self.paceCountSeconds = self.paceWalkTimeSeconds;
         self.isWalking = YES;
@@ -191,10 +197,10 @@ static NSString * const detailSegueName = @"RunDetails";
 - (IBAction)switchChanged:(id)sender
 {
     if ([sender isOn]) {
-        self.isPacerOn = YES;
+        self.isIntervalTimerOn = YES;
         self.intervalTimeCell.hidden = NO;
     } else {
-        self.isPacerOn = NO;
+        self.isIntervalTimerOn = NO;
         self.intervalTimeCell.hidden = YES;
     }
 }
@@ -209,7 +215,9 @@ static NSString * const detailSegueName = @"RunDetails";
         [self performSegueWithIdentifier:detailSegueName sender:nil];
         // discard
     } else if (buttonIndex == 1) {
-        [self.navigationController popToRootViewControllerAnimated:YES];
+        self.isActivityStarted = NO;
+        [self.timer invalidate];
+        [self setDefaultViewState];
     }
 }
 
@@ -260,7 +268,7 @@ static NSString * const detailSegueName = @"RunDetails";
     self.paceCell.detailTextLabel.text = [NSString stringWithFormat:@"%@", [MathController stringifyAvgPaceFromDist:self.distance overTime:self.seconds]];
     
     // check pacer if enabled
-    if (self.isPacerOn) {
+    if (self.isIntervalTimerOn) {
         [self checkPacer];
         self.intervalTimeCell.detailTextLabel.text = [NSString stringWithFormat:@"00:%02i %@",self.paceCountSeconds, self.intervalMsg];
     }
