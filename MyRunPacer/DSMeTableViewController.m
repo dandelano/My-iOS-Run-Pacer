@@ -11,14 +11,18 @@
 #import "SettingsDataObject.h"
 #import "MathController.h"
 
+// NOTE: This method of caching the formatter does not account for a change in locale
+static NSDateFormatter *formatter = nil;
+
 @interface DSMeTableViewController ()
 
-@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *distanceLabel;
-@property (weak, nonatomic) IBOutlet UILabel *numOfActivitiesLabel;
-@property (weak, nonatomic) IBOutlet UILabel *firstRunDateLabel;
-@property (weak, nonatomic) IBOutlet UILabel *lastRunDateLabel;
+@property (nonatomic, weak) SettingsDataObject *settingsDataObj;
 
+@property (nonatomic, weak) IBOutlet UILabel *nameLabel;
+@property (nonatomic, weak) IBOutlet UILabel *distanceLabel;
+@property (nonatomic, weak) IBOutlet UILabel *numOfActivitiesLabel;
+@property (nonatomic, weak) IBOutlet UILabel *firstRunDateLabel;
+@property (nonatomic, weak) IBOutlet UILabel *lastRunDateLabel;
 
 @property (nonatomic) NSString *userName;
 @property (nonatomic) NSDate *firstRunDate;
@@ -38,7 +42,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.userName = @"Full Name";
+    self.settingsDataObj = [self settingsDataObject];
+    
+    // Set the date formatter for the table view
+    if (formatter == nil) {
+        formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"MMM dd yyyy"];
+    }
+    
     self.totalDistance = 0.0;
     self.numberOfActivities = 0;
 }
@@ -47,11 +58,14 @@
 {
     [super viewWillAppear:animated];
     [self fetchUserInfo];
-    self.nameLabel.text = self.userName;
+    NSString *name = [self.settingsDataObj fullname];
+    self.nameLabel.text = [name length] == 0 ? @"Not Set" : name;
     self.distanceLabel.text = [MathController stringifyDistance:self.totalDistance];
     self.numOfActivitiesLabel.text = [NSString stringWithFormat:@"%i Activities Logged",self.numberOfActivities];
-    self.firstRunDateLabel.text = @"Active Since: Oct, 10 2014";
-    self.lastRunDateLabel.text = @"Oct, 10 2014";
+    
+    // format Day,Month day year
+    self.firstRunDateLabel.text = [NSString stringWithFormat:@"Active Since: %@", [formatter stringFromDate:self.firstRunDate]];
+    self.lastRunDateLabel.text = [NSString stringWithFormat:@"%@", [formatter stringFromDate:self.lastRunDate]];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -63,10 +77,8 @@
 
 - (void)fetchUserInfo
 {
-    SettingsDataObject *settingsDataObject = [self settingsDataObject];
-    
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Run" inManagedObjectContext:settingsDataObject.managedObjectContext];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Run" inManagedObjectContext:self.settingsDataObj.managedObjectContext];
     [fetchRequest setEntity:entity];
     [fetchRequest setResultType:NSDictionaryResultType];
     [fetchRequest setPropertiesToFetch:[NSArray arrayWithObjects:@"timestamp",@"distance",nil]];
@@ -115,7 +127,7 @@
     
     // do the fetch
     NSError *error = nil;
-    NSArray *fetchResults = [settingsDataObject.managedObjectContext
+    NSArray *fetchResults = [self.settingsDataObj.managedObjectContext
                              executeFetchRequest:fetchRequest
                              error:&error];
     // get the results

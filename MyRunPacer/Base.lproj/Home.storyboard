@@ -375,6 +375,9 @@
                                                             <include reference="onx-W2-O7v"/>
                                                         </mask>
                                                     </variation>
+                                                    <connections>
+                                                        <action selector="switchChanged:" destination="IUn-M9-trz" eventType="valueChanged" id="VAn-eh-V9Z"/>
+                                                    </connections>
                                                 </switch>
                                             </subviews>
                                             <constraints>
