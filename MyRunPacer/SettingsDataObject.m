@@ -80,16 +80,17 @@
     self.dob = (NSDate*)[defaults objectForKey:@"dob"];
     self.genderInt = [defaults integerForKey:@"gender"];
     self.genderStr = [NSString stringWithFormat:@"%@", self.genderInt ? @"Female" : @"Male"]; // 0 male, 1 female
-    
-    NSLog(@"Metric: %@", self.isMetric ? @"YES" : @"NO");
-    NSLog(@"Int Timer: %@", self.useIntervalTimer ? @"YES" : @"NO");
-    
-    
 }
 
 - (void)saveUserSettings
 {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
+    NSString *storedVal = @"This is what you want to save";
+    NSString *key = @"storedVal"; // the key for the data
+    
+    [defaults setObject:storedVal forKey:key];
+    [defaults synchronize]; // this method is optional
 }
 
 @end

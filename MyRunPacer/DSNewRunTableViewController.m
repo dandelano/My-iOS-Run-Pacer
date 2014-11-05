@@ -16,17 +16,20 @@
 #import "Run.h"
 #import "Location.h"
 
+// TODO: Possible conflict with timing in the actionsheet clickbutton
 
-// TODO: Fix the state of view when stop button is pressed, and activity is discarded.
-// TODO: Incorporate user settings into functionality
-// TODO: Fix saving method
-// TODO: Fix Interval timer functionality
+typedef enum {
+    asSave = 0,
+    asDiscard,
+    asCancel
+} ActShtBtn;
 
 static NSString * const detailSegueName = @"RunDetails";
 
-@interface DSNewRunTableViewController () <UIActionSheetDelegate, CLLocationManagerDelegate, MKMapViewDelegate>
+@interface DSNewRunTableViewController () <UITabBarControllerDelegate, UIActionSheetDelegate, CLLocationManagerDelegate, MKMapViewDelegate>
 
 @property (nonatomic, weak) SettingsDataObject *settingsDataObj;
+@property (nonatomic, strong) Run *run;
 
 // Flag for is app started
 @property BOOL isActivityStarted;
@@ -41,13 +44,6 @@ static NSString * const detailSegueName = @"RunDetails";
 @property int paceWalkTimeSeconds;
 @property int paceRunTimeSeconds;
 
-// Used for countdown, and display
-@property int paceCountSeconds;
-@property NSString *intervalMsg;
-
-// MapView
-@property (nonatomic, weak) IBOutlet MKMapView *mapView;
-
 // LocationManager
 @property int seconds;
 @property float distance;
@@ -55,9 +51,8 @@ static NSString * const detailSegueName = @"RunDetails";
 @property (nonatomic, strong) NSMutableArray *locations;
 @property (nonatomic, strong) NSTimer *timer;
 
-// ActionSheet
-@property (nonatomic, strong) Run *run;
-
+// View outlets
+@property (nonatomic, weak) IBOutlet MKMapView *mapView;
 @property (nonatomic, weak) IBOutlet UILabel *promptLabel;
 @property (nonatomic, weak) IBOutlet UITableViewCell *distanceCell;
 @property (nonatomic, weak) IBOutlet UITableViewCell *timeCell;
@@ -78,62 +73,70 @@ static NSString * const detailSegueName = @"RunDetails";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.tabBarController setDelegate:self];
+    
     self.settingsDataObj = [self settingsDataObject];
-    // Do any additional setup after loading the view.
-    self.isActivityStarted = NO;
-    
-    // set pace timer
-    self.isIntervalTimerOn = [self.settingsDataObj useIntervalTimer];
-    [self.useIntervalTimerSwitch setOn: [self.settingsDataObj useIntervalTimer]];
-    
-    // Set the initial values
-    self.paceWalkTimeSeconds = [(NSNumber *)[[self.settingsDataObj intervalTimes] objectAtIndex:[self.settingsDataObj walkInterval]] intValue];
-    self.paceRunTimeSeconds = [(NSNumber *)[[self.settingsDataObj intervalTimes] objectAtIndex:[self.settingsDataObj runInterval]] intValue];
-    
-    self.intervalMsg = @"Walking";
-    
+    [self setStartingViewState];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self setDefaultViewState];
+    self.isIntervalTimerOn = [self.settingsDataObj useIntervalTimer];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    //[self.timer invalidate];
 }
 
 #pragma mark - Default States
 
-- (void)setDefaultViewState
+- (void)setStartingViewState
 {
-    self.mapView.hidden = YES;
+    self.isActivityStarted = NO;
     
-    // Show as start button
+    // clear labels
+    self.timeCell.detailTextLabel.text = @"-";
+    self.distanceCell.detailTextLabel.text = @"-";
+    self.paceCell.detailTextLabel.text = @"-";
+    self.intervalTimeCell.detailTextLabel.text = @"-";
+    
+    // Show as start button and ready label
     [self.startButton setTitle:@"Start" forState:UIControlStateNormal];
     self.startButton.backgroundColor = [UIColor colorWithRed:0/255.0f green:146/255.0f blue:69/255.0f alpha:1.0f];
     self.startButton.hidden = NO;
-    
     self.promptLabel.hidden = NO;
     
+    // Hide map and other labels
+    self.mapView.hidden = YES;
     self.timeCell.detailTextLabel.hidden = YES;
     self.distanceCell.detailTextLabel.hidden = YES;
     self.paceCell.detailTextLabel.hidden = YES;
     
-    if (self.isIntervalTimerOn == NO)
-        self.intervalTimeCell.hidden = YES;
-    else
-        self.intervalTimeCell.hidden = NO;
-    
+    // set pace timer
+    //self.isIntervalTimerOn = [self.settingsDataObj useIntervalTimer];
     [self.useIntervalTimerSwitch setEnabled:YES];
+    [self.useIntervalTimerSwitch setOn: self.isIntervalTimerOn];
+    
+    // If switch is YES, cell.hidden is NO
+    self.intervalTimeCell.hidden = !self.isIntervalTimerOn;
+    
+    // Set values to default zeros
+    self.seconds = 0;
+    self.distance = 0.0;
+    
+    // if not nil or empty, remove all objects
+    if (!self.locations || ![self.locations count]){
+        [self.locations removeAllObjects];
+    }
+    
+    NSArray *pointsArray = [self.mapView overlays];
+    [self.mapView removeOverlays:pointsArray];
 }
 
 #pragma mark - Button Actions
@@ -149,18 +152,16 @@ static NSString * const detailSegueName = @"RunDetails";
 
 - (void)startAction
 {
-    // hide the start UI
-    //self.startButton.hidden = YES;
     self.promptLabel.hidden = YES;
     
-    // set pace timer
+    // disable interval timer switch during run
     [self.useIntervalTimerSwitch setEnabled:NO];
     
     if (self.isIntervalTimerOn) {
-        self.intervalTimeCell.detailTextLabel.text = [NSString stringWithFormat:@"00:%02i %@",self.paceWalkTimeSeconds, self.intervalMsg];
-        self.paceCountSeconds = self.paceWalkTimeSeconds;
+        // Set the initial values
+        self.paceWalkTimeSeconds = [(NSNumber *)[[self.settingsDataObj intervalTimes] objectAtIndex:[self.settingsDataObj walkInterval]] intValue];
+        self.paceRunTimeSeconds = [(NSNumber *)[[self.settingsDataObj intervalTimes] objectAtIndex:[self.settingsDataObj runInterval]] intValue];
         self.isWalking = YES;
-        self.intervalTimeCell.hidden = NO;
     }
     
     // show the running UI
@@ -175,6 +176,7 @@ static NSString * const detailSegueName = @"RunDetails";
     // Start location and time
     self.seconds = 0;
     self.distance = 0;
+    // check and delete locations then create new array
     self.locations = [NSMutableArray array];
     self.timer = [NSTimer scheduledTimerWithTimeInterval:(1.0) target:self selector:@selector(eachSecond) userInfo:nil repeats:YES];
     [self startLocationUpdates];
@@ -199,9 +201,11 @@ static NSString * const detailSegueName = @"RunDetails";
     if ([sender isOn]) {
         self.isIntervalTimerOn = YES;
         self.intervalTimeCell.hidden = NO;
+        [self.settingsDataObj setUseIntervalTimer:YES];
     } else {
         self.isIntervalTimerOn = NO;
         self.intervalTimeCell.hidden = YES;
+        [self.settingsDataObj setUseIntervalTimer:NO];
     }
 }
 
@@ -209,15 +213,18 @@ static NSString * const detailSegueName = @"RunDetails";
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    // save
-    if (buttonIndex == 0) {
-        [self saveRun]; // Added the saveRun function
-        [self performSegueWithIdentifier:detailSegueName sender:nil];
-        // discard
-    } else if (buttonIndex == 1) {
-        self.isActivityStarted = NO;
-        [self.timer invalidate];
-        [self setDefaultViewState];
+    switch (buttonIndex) {
+        case asSave:
+            [self saveRun];
+            [self performSegueWithIdentifier:detailSegueName sender:nil];
+            //break;
+        case asDiscard:
+            [self.timer invalidate];
+            [self.locationManager stopUpdatingLocation];
+            [self setStartingViewState];
+            break;
+        case asCancel:
+            break;
     }
 }
 
@@ -231,7 +238,6 @@ static NSString * const detailSegueName = @"RunDetails";
     NSMutableArray *locationArray = [NSMutableArray array];
     for (CLLocation *location in self.locations) {
         Location *locationObject = [NSEntityDescription insertNewObjectForEntityForName:@"Location" inManagedObjectContext:self.settingsDataObj.managedObjectContext];
-        
         locationObject.timestamp = location.timestamp;
         locationObject.latitude = [NSNumber numberWithDouble:location.coordinate.latitude];
         locationObject.longitude = [NSNumber numberWithDouble:location.coordinate.longitude];
@@ -257,60 +263,57 @@ static NSString * const detailSegueName = @"RunDetails";
     }
 }
 
+- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController
+{
+    if (self.isActivityStarted == YES)
+        return NO;
+    else
+        return YES;
+}
+
 #pragma mark - Timer
 
 - (void)eachSecond
 {
     self.seconds++;
     
+    // Update display cells
     self.timeCell.detailTextLabel.text = [NSString stringWithFormat:@"%@", [MathController stringifySecondCount:self.seconds usingLongFormat:NO]];
     self.distanceCell.detailTextLabel.text = [NSString stringWithFormat:@"%@", [MathController stringifyDistance:self.distance]];
     self.paceCell.detailTextLabel.text = [NSString stringWithFormat:@"%@", [MathController stringifyAvgPaceFromDist:self.distance overTime:self.seconds]];
     
-    // check pacer if enabled
-    if (self.isIntervalTimerOn) {
+    // check interval timer if enabled
+    if (self.isIntervalTimerOn)
         [self checkPacer];
-        self.intervalTimeCell.detailTextLabel.text = [NSString stringWithFormat:@"00:%02i %@",self.paceCountSeconds, self.intervalMsg];
-    }
     
 }
 
 - (void)checkPacer
 {
-    // decrement pacer count
-    self.paceCountSeconds--;
+    static NSString *intervalMsg = @"Walking";
+    static int intervalCountSeconds = 0;
+    intervalCountSeconds++; // increment pace count
     
-    // check if less than 0
-    if (self.paceCountSeconds <= 0) {
-        //buzz phone
-        [self vibratePhone];
-        //AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
-        
-        // switch walking/running and reset to next count
-        if (self.isWalking) {
-            self.isWalking = NO;
-            self.intervalMsg = @"Running";
-            self.paceCountSeconds = self.paceRunTimeSeconds;
-        } else {
-            self.isWalking = YES;
-            self.intervalMsg = @"Walking";
-            self.paceCountSeconds = self.paceWalkTimeSeconds;
-        }
+    // if isWalking, get walk time remaining, else get run time remaining
+    int count = (self.isWalking == YES) ? (self.paceWalkTimeSeconds - intervalCountSeconds) : (self.paceRunTimeSeconds - intervalCountSeconds);
+    
+    if (count <= 0) {
+        [self vibratePhone]; // buzz phone
+        self.isWalking = !self.isWalking; // switch action
+        intervalMsg = (self.isWalking == YES) ? @"Walking" : @"Running";
+        intervalCountSeconds = 0; // reset
     }
+    
+    // update display label
+    self.intervalTimeCell.detailTextLabel.text = [NSString stringWithFormat:@"00:%02i %@",count, intervalMsg];
 }
 
 - (void)vibratePhone;
 {
     if([[UIDevice currentDevice].model isEqualToString:@"iPhone"])
-    {
         AudioServicesPlaySystemSound (1352); //works ALWAYS as of this post
-    }
     else
-    {
-        // Not an iPhone, so doesn't have vibrate
-        // play the less annoying tick noise or one of your own
-        AudioServicesPlayAlertSound (1105);
-    }
+        AudioServicesPlayAlertSound (1105); // Not an iPhone, so doesn't have vibrate, play sound of your own
 }
 
 #pragma mark - Locations
@@ -319,9 +322,8 @@ static NSString * const detailSegueName = @"RunDetails";
 {
     // Create the location manager if this object does not
     // already have one.
-    if (self.locationManager == nil) {
+    if (self.locationManager == nil)
         self.locationManager = [[CLLocationManager alloc] init];
-    }
     
     self.locationManager.delegate = self;
     self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
@@ -337,9 +339,7 @@ static NSString * const detailSegueName = @"RunDetails";
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
     for (CLLocation *newLocation in locations) {
-        
         NSDate *eventDate = newLocation.timestamp;
-        
         NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
         
         if (abs(howRecent) < 10.0 && newLocation.horizontalAccuracy < 20) {
@@ -347,7 +347,7 @@ static NSString * const detailSegueName = @"RunDetails";
             // Update distance
             if (self.locations.count > 0) {
                 self.distance += [newLocation distanceFromLocation:self.locations.lastObject];
-                
+    
                 CLLocationCoordinate2D coords[2];
                 coords[0] = ((CLLocation *)self.locations.lastObject).coordinate;
                 coords[1] = newLocation.coordinate;
@@ -376,6 +376,4 @@ static NSString * const detailSegueName = @"RunDetails";
     }
     return nil;
 }
-
-
 @end
