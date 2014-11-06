@@ -15,16 +15,17 @@
     NSManagedObjectContext *managedObjectContext;
     
     // TODO: Settings to implement
+    NSArray *distanceUnits_Str;
     BOOL isMetric;
     BOOL useIntervalTimer;
-    NSArray *intervalTimes;
-    NSInteger walkInterval;
-    NSInteger runInterval;
-    NSString *fullname;
-    NSDate *dob;
-    NSInteger genderInt;
-    NSString *genderStr;
-    
+    NSArray *intervalTimes_Int;
+    NSArray *intervalTimes_Str;
+    NSInteger walkIntervalIndex_Int;
+    NSInteger runIntervalIndex_Int;
+    NSString *name_Str;
+    NSDate *dob_Date;
+    NSInteger genderIndex_Int;
+    NSArray *genders_Str;
     
     // examples
     //NSString*	string1;
@@ -33,15 +34,17 @@
 }
 
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic) NSArray *distanceUnits_Str;
 @property (nonatomic) BOOL isMetric;
 @property (nonatomic) BOOL useIntervalTimer;
-@property (nonatomic) NSArray *intervalTimes;
-@property (nonatomic) NSInteger walkInterval;
-@property (nonatomic) NSInteger runInterval;
-@property (nonatomic, copy) NSString *fullname;
-@property (nonatomic) NSDate *dob;
-@property (nonatomic) NSInteger genderInt;
-@property (nonatomic, copy) NSString *genderStr;
+@property (nonatomic) NSArray *intervalTimes_Int;
+@property (nonatomic) NSArray *intervalTimes_Str;
+@property (nonatomic) NSInteger walkIntervalIndex_Int;
+@property (nonatomic) NSInteger runIntervalIndex_Int;
+@property (nonatomic, copy) NSString *name_Str;
+@property (nonatomic) NSDate *dob_Date;
+@property (nonatomic) NSInteger genderIndex_Int;
+@property (nonatomic) NSArray *genders_Str;
 
 // examples
 //@property (nonatomic, copy) NSString* string1;

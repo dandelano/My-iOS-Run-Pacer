@@ -20,6 +20,7 @@
 		48C5D70B19F1A42C001C0273 /* MyRunPacerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 48C5D70A19F1A42C001C0273 /* MyRunPacerTests.m */; };
 		48C5D71619F1A5F3001C0273 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 48C5D71519F1A5F3001C0273 /* Location.m */; };
 		48C5D71919F1A5F4001C0273 /* Run.m in Sources */ = {isa = PBXBuildFile; fileRef = 48C5D71819F1A5F4001C0273 /* Run.m */; };
+		48CA24F41A0AAD45005A0526 /* DSSettingSelectTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48CA24F31A0AAD45005A0526 /* DSSettingSelectTableViewController.m */; };
 		48EE082919F5F8980014C384 /* MulticolorPolylineSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = 48EE082819F5F8980014C384 /* MulticolorPolylineSegment.m */; };
 		48EE082B19F6CEB20014C384 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48EE082A19F6CEB20014C384 /* AudioToolbox.framework */; };
 		48F1A6211A0810510096514A /* DSRunDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 48F1A6201A0810510096514A /* DSRunDetailTableViewController.m */; };
@@ -69,6 +70,8 @@
 		48C5D71519F1A5F3001C0273 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
 		48C5D71719F1A5F4001C0273 /* Run.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Run.h; sourceTree = "<group>"; };
 		48C5D71819F1A5F4001C0273 /* Run.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Run.m; sourceTree = "<group>"; };
+		48CA24F21A0AAD45005A0526 /* DSSettingSelectTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSSettingSelectTableViewController.h; sourceTree = "<group>"; };
+		48CA24F31A0AAD45005A0526 /* DSSettingSelectTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSSettingSelectTableViewController.m; sourceTree = "<group>"; };
 		48EE082719F5F8980014C384 /* MulticolorPolylineSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MulticolorPolylineSegment.h; sourceTree = "<group>"; };
 		48EE082819F5F8980014C384 /* MulticolorPolylineSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MulticolorPolylineSegment.m; sourceTree = "<group>"; };
 		48EE082A19F6CEB20014C384 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -132,7 +135,6 @@
 		48C5D6DC19F1A42B001C0273 = {
 			isa = PBXGroup;
 			children = (
-				48A75E891A09385000EF3975 /* MapKit.framework */,
 				48C5D6E719F1A42B001C0273 /* MyRunPacer */,
 				48C5D70719F1A42C001C0273 /* MyRunPacerTests */,
 				48C5D6E619F1A42B001C0273 /* Products */,
@@ -229,6 +231,7 @@
 		48FC217C19F9862200EA3965 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				48A75E891A09385000EF3975 /* MapKit.framework */,
 				48EE082A19F6CEB20014C384 /* AudioToolbox.framework */,
 			);
 			name = Frameworks;
@@ -252,6 +255,8 @@
 			children = (
 				48FC22301A03289B00EA3965 /* DSSettingsTableViewController.h */,
 				48FC22311A03289B00EA3965 /* DSSettingsTableViewController.m */,
+				48CA24F21A0AAD45005A0526 /* DSSettingSelectTableViewController.h */,
+				48CA24F31A0AAD45005A0526 /* DSSettingSelectTableViewController.m */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -434,6 +439,7 @@
 				48FC21F919FDFEF200EA3965 /* DSLinkedStoryboardSegue.m in Sources */,
 				48C5D6EE19F1A42B001C0273 /* DSAppDelegate.m in Sources */,
 				48C5D6EB19F1A42B001C0273 /* main.m in Sources */,
+				48CA24F41A0AAD45005A0526 /* DSSettingSelectTableViewController.m in Sources */,
 				48C5D71619F1A5F3001C0273 /* Location.m in Sources */,
 				48C5D6F119F1A42B001C0273 /* MyRunPacer.xcdatamodeld in Sources */,
 			);

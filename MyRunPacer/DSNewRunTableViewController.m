@@ -163,8 +163,8 @@ static NSString * const detailSegueName = @"RunDetails";
     
     if (self.isIntervalTimerOn) {
         // Set the initial values
-        self.paceWalkTimeSeconds = [(NSNumber *)[[self.settingsDataObj intervalTimes] objectAtIndex:[self.settingsDataObj walkInterval]] intValue];
-        self.paceRunTimeSeconds = [(NSNumber *)[[self.settingsDataObj intervalTimes] objectAtIndex:[self.settingsDataObj runInterval]] intValue];
+        self.paceWalkTimeSeconds = [(NSNumber *)[[self.settingsDataObj intervalTimes_Int] objectAtIndex:[self.settingsDataObj walkIntervalIndex_Int]] intValue];
+        self.paceRunTimeSeconds = [(NSNumber *)[[self.settingsDataObj intervalTimes_Int] objectAtIndex:[self.settingsDataObj runIntervalIndex_Int]] intValue];
         self.isWalking = YES;
     }
     

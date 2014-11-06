@@ -9,23 +9,36 @@
 #import "MathController.h"
 #import "Location.h"
 #import "MulticolorPolylineSegment.h"
+#import "SettingsDataObject.h"
+#import "AppDelegateProtocol.h"
 
 // Not using metric, set to NO
-static bool const isMetric = NO;
+//static bool const isMetric = NO;
+static SettingsDataObject *settingsDataObj;
 static float const metersInKM = 1000;
 static float const metersInMile = 1609.344;
 
 @implementation MathController
 
++ (SettingsDataObject*)settingsDataObject
+{
+    id<AppDelegateProtocol> theDelegate = (id<AppDelegateProtocol>) [UIApplication sharedApplication].delegate;
+    return (SettingsDataObject*) theDelegate.settingsDataObject;
+}
+
 // TODO: Implement user settings for isMetric
 
 + (NSString *)stringifyDistance:(float)meters
 {
+    if (!settingsDataObj) {
+        settingsDataObj = [self settingsDataObject];
+    }
+    
     float unitDivider;
     NSString *unitName;
     
     // metric
-    if (isMetric) {
+    if ([settingsDataObj isMetric]) {
         unitName = @"km";
         // to get from meters to kilometers divide by this
         unitDivider = metersInKM;
@@ -77,8 +90,12 @@ static float const metersInMile = 1609.344;
     float unitMultiplier;
     NSString *unitName;
     
+    if (!settingsDataObj) {
+        settingsDataObj = [self settingsDataObject];
+    }
+    
     // metric
-    if (isMetric) {
+    if ([settingsDataObj isMetric]) {
         unitName = @"min/km";
         unitMultiplier = metersInKM;
         // U.S.

@@ -58,7 +58,7 @@ static NSDateFormatter *formatter = nil;
 {
     [super viewWillAppear:animated];
     [self fetchUserInfo];
-    NSString *name = [self.settingsDataObj fullname];
+    NSString *name = [self.settingsDataObj name_Str];
     self.nameLabel.text = [name length] == 0 ? @"Not Set" : name;
     self.distanceLabel.text = [MathController stringifyDistance:self.totalDistance];
     self.numOfActivitiesLabel.text = [NSString stringWithFormat:@"%i Activities Logged",self.numberOfActivities];

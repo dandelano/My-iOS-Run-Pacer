@@ -46,14 +46,15 @@
     
     self.timeCell.detailTextLabel.text = [NSString stringWithFormat:@"%@",  [MathController stringifySecondCount:self.run.duration.intValue usingLongFormat:YES]];
     
-    self.paceCell.detailTextLabel.text = [NSString stringWithFormat:@"%@",  [MathController stringifyAvgPaceFromDist:self.run.distance.floatValue overTime:self.run.duration.intValue]];
+    self.paceCell.detailTextLabel.text = [NSString stringWithFormat:@"%@",  [MathController stringifyAvgPaceFromDist:self.run.distance.floatValue
+                                                                                                            overTime:self.run.duration.intValue]];
     
     [self loadMap];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //[self configureView];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated

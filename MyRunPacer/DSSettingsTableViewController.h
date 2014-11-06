@@ -8,6 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum {
+    csDistanceUnitCell = 0,
+    csWalkIntervalCell,
+    csRunIntervalCell,
+    csUserNameCell,
+    csDobCell,
+    csGenderCell
+} CellSelector;
+
 @interface DSSettingsTableViewController : UITableViewController
 
 @end

@@ -20,15 +20,17 @@
 #pragma mark - Properties
 
 @synthesize managedObjectContext;
+@synthesize distanceUnits_Str;
 @synthesize isMetric;
 @synthesize useIntervalTimer;
-@synthesize intervalTimes;
-@synthesize walkInterval;
-@synthesize runInterval;
-@synthesize fullname;
-@synthesize dob;
-@synthesize genderInt;
-@synthesize genderStr;
+@synthesize intervalTimes_Int;
+@synthesize intervalTimes_Str;
+@synthesize walkIntervalIndex_Int;
+@synthesize runIntervalIndex_Int;
+@synthesize name_Str;
+@synthesize dob_Date;
+@synthesize genderIndex_Int;
+@synthesize genders_Str;
 
 
 
@@ -71,15 +73,17 @@
 - (void)loadUserSettings
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    self.distanceUnits_Str = [defaults arrayForKey:@"distanceUnits_Str"];
     self.isMetric = [defaults boolForKey:@"isMetric"];
     self.useIntervalTimer = [defaults boolForKey:@"useIntervalTimer"];
-    self.intervalTimes = [defaults arrayForKey:@"intervalTimes"];
-    self.walkInterval = [defaults boolForKey:@"walkInterval"];
-    self.runInterval = [defaults boolForKey:@"runInterval"];
-    self.fullname = [defaults stringForKey:@"name"];
-    self.dob = (NSDate*)[defaults objectForKey:@"dob"];
-    self.genderInt = [defaults integerForKey:@"gender"];
-    self.genderStr = [NSString stringWithFormat:@"%@", self.genderInt ? @"Female" : @"Male"]; // 0 male, 1 female
+    self.intervalTimes_Int = [defaults arrayForKey:@"intervalTimes_Int"];
+    self.intervalTimes_Str = [defaults arrayForKey:@"intervalTimes_Str"];
+    self.walkIntervalIndex_Int = [defaults integerForKey:@"walkIntervalIndex_Int"];
+    self.runIntervalIndex_Int = [defaults integerForKey:@"runIntervalIndex_Int"];
+    self.name_Str = [defaults stringForKey:@"name_Str"];
+    self.dob_Date = (NSDate*)[defaults objectForKey:@"dob_Date"];
+    self.genderIndex_Int = [defaults integerForKey:@"genderIndex_Int"];
+    self.genders_Str = [defaults arrayForKey:@"genders_Str"]; // 0 male, 1 female
 }
 
 - (void)saveUserSettings
