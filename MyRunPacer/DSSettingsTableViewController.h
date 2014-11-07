@@ -10,11 +10,14 @@
 
 typedef enum {
     csDistanceUnitCell = 0,
+    csUseIntervalTimerCell,
     csWalkIntervalCell,
     csRunIntervalCell,
     csUserNameCell,
     csDobCell,
-    csGenderCell
+    csGenderCell,
+    csAboutCell,
+    csUnknownCell
 } CellSelector;
 
 @interface DSSettingsTableViewController : UITableViewController

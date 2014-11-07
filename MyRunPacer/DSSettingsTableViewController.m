@@ -14,6 +14,7 @@
 // TODO: Implement setting and getting of user settings
 static NSDateFormatter *formatter = nil;
 static NSString * const settingSelectSegueName = @"settingSelect";
+static NSString * const aboutSegueName = @"aboutView";
 
 @interface DSSettingsTableViewController ()
 
@@ -22,11 +23,13 @@ static NSString * const settingSelectSegueName = @"settingSelect";
 
 @property (weak, nonatomic) IBOutlet UITableViewCell *distanceUnitCell;
 @property (weak, nonatomic) IBOutlet UISwitch *useIntervalTimerSwitch;
+@property (weak, nonatomic) IBOutlet UITableViewCell *useIntervalTimerCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *walkIntervalCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *runIntervalCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *userNameCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *dobCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *genderCell;
+@property (weak, nonatomic) IBOutlet UITableViewCell *aboutCell;
 
 @end
 
@@ -92,29 +95,34 @@ static NSString * const settingSelectSegueName = @"settingSelect";
     UITableViewCell *theCellClicked = [self.tableView cellForRowAtIndexPath:indexPath];
     
     if (theCellClicked == self.distanceUnitCell) {
-        NSLog(@"Distance cell");
         self.selectedCell = csDistanceUnitCell;
+    } else if (theCellClicked == self.useIntervalTimerCell){
+        self.selectedCell = csUseIntervalTimerCell;
     } else if (theCellClicked == self.walkIntervalCell) {
-        NSLog(@"walk cell");
         self.selectedCell = csWalkIntervalCell;
     } else if (theCellClicked == self.runIntervalCell) {
-        NSLog(@"run cell");
         self.selectedCell = csRunIntervalCell;
     } else if (theCellClicked == self.userNameCell) {
-        NSLog(@"username cell");
         self.selectedCell = csUserNameCell;
     } else if (theCellClicked == self.dobCell) {
-        NSLog(@"dob cell");
         self.selectedCell = csDobCell;
     } else if (theCellClicked == self.genderCell) {
-        NSLog(@"gender cell");
         self.selectedCell = csGenderCell;
+    } else if (theCellClicked == self.aboutCell){
+        self.selectedCell = csAboutCell;
     } else {
-        NSLog(@"Different cell selected");
-        return;
+        NSLog(@"Unknown Cell Selection");
+        self.selectedCell = csUnknownCell;
     }
     
-    [self performSegueWithIdentifier:settingSelectSegueName sender:nil];
+    if (self.selectedCell == csUnknownCell || self.selectedCell == csUseIntervalTimerCell) {
+        // Do nothing for these cells
+        return;
+    } else if(self.selectedCell == csAboutCell){
+        [self performSegueWithIdentifier:aboutSegueName sender:nil];
+    } else {
+        [self performSegueWithIdentifier:settingSelectSegueName sender:nil];
+    }
 }
 
 #pragma mark - Prepare Segue

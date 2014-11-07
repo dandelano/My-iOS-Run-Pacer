@@ -566,9 +566,6 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="ZMs-NM-LSp" kind="show" identifier="About" id="EKy-ak-8vU"/>
-                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -581,19 +578,22 @@
                     <tabBarItem key="tabBarItem" title="Settings" image="settings.png" id="ncv-OW-TGv"/>
                     <navigationItem key="navigationItem" id="HEn-07-XEw"/>
                     <connections>
+                        <outlet property="aboutCell" destination="lKI-A2-k4P" id="52R-x2-8fG"/>
                         <outlet property="distanceUnitCell" destination="N1r-F7-uy0" id="jUm-ps-Vbc"/>
                         <outlet property="dobCell" destination="1LU-53-jv6" id="8z7-OS-XNt"/>
                         <outlet property="genderCell" destination="hJC-ik-Sau" id="rR1-qq-RPy"/>
                         <outlet property="runIntervalCell" destination="QME-yW-k95" id="Fz2-mv-TBB"/>
+                        <outlet property="useIntervalTimerCell" destination="rw6-Bg-Jcj" id="WK9-1f-u3X"/>
                         <outlet property="useIntervalTimerSwitch" destination="xBu-6z-5P6" id="XXk-V9-egR"/>
                         <outlet property="userNameCell" destination="qbH-fX-qgH" id="qvP-C5-MBz"/>
                         <outlet property="walkIntervalCell" destination="flz-yi-n7t" id="lEA-q8-ynh"/>
                         <segue destination="WnO-UC-E7L" kind="show" identifier="settingSelect" id="WhL-TK-V2t"/>
+                        <segue destination="ZMs-NM-LSp" kind="show" identifier="aboutView" id="Tj3-V9-Un1"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hIB-5Y-lHd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-202.5" y="1344.75"/>
+            <point key="canvasLocation" x="-123" y="1345.5"/>
         </scene>
         <!--Select-->
         <scene sceneID="MPJ-cU-us8">
@@ -885,7 +885,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gd1-Ti-3oU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-202.5" y="2042.25"/>
+            <point key="canvasLocation" x="-123" y="2072.25"/>
         </scene>
         <!--Detail-->
         <scene sceneID="frS-II-LEI">

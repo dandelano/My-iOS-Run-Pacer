@@ -10,8 +10,8 @@
 #import "AppDelegateProtocol.h"
 #import "SettingsDataObject.h"
 
-#define dDatePickerTag  99  // view tag for identifiying the date picker
-#define dNameTextFieldTag   98 // view tag for identifiying the name input field
+#define dDatePickerTag      99  // view tag for identifiying the date picker
+#define dNameTextFieldTag   98  // view tag for identifiying the name input field
 
 static NSString * const dOptionID = @"optionCell";
 static NSString * const dNameID = @"nameCell";
@@ -30,8 +30,6 @@ static NSString * const dDatePickerID = @"datePickerCell";
 @property (nonatomic,retain) NSIndexPath *checkedOption;
 @property (nonatomic,weak) NSArray *options;
 @property (nonatomic) NSInteger selectedOption;
-
-
 
 @end
 
@@ -134,10 +132,8 @@ static NSString * const dDatePickerID = @"datePickerCell";
 {
     switch (self.selectedOptions) {
         case csDobCell:
-            NSLog(@"Date cell selected");
             break;
         case csUserNameCell:
-            NSLog(@"Textfield cell selected");
             break;
         default:
             // Uncheck the previous checked row
@@ -191,6 +187,8 @@ static NSString * const dDatePickerID = @"datePickerCell";
 {
     [self.settingsDataObj setDob_Date:[datePicker date]];
 }
+
+#pragma mark - TextField Action
 
 - (IBAction)nameDidChange:(UITextField*)textField
 {
