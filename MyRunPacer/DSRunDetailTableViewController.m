@@ -1,29 +1,29 @@
 //
-//  DetailViewController.m
+//  DSRunDetailTableViewController.m
 //  MyRunPacer
 //
-//  Created by Danny J. Delano Jr. on 10/17/14.
+//  Created by Danny J. Delano Jr. on 11/3/14.
 //  Copyright (c) 2014 Danny J. Delano Jr. All rights reserved.
 //
 
-#import "DSRunDetailViewController.h"
+#import "DSRunDetailTableViewController.h"
 #import <MapKit/MapKit.h>
 #import "MathController.h"
 #import "MulticolorPolylineSegment.h"
 #import "Run.h"
 #import "Location.h"
 
-@interface DSRunDetailViewController () <MKMapViewDelegate>
+@interface DSRunDetailTableViewController () <MKMapViewDelegate>
 
 @property (nonatomic, weak) IBOutlet MKMapView *mapView;
-@property (nonatomic, weak) IBOutlet UILabel *distanceLabel;
-@property (nonatomic, weak) IBOutlet UILabel *dateLabel;
-@property (nonatomic, weak) IBOutlet UILabel *timeLabel;
-@property (nonatomic, weak) IBOutlet UILabel *paceLabel;
+@property (weak, nonatomic) IBOutlet UITableViewCell *distanceCell;
+@property (weak, nonatomic) IBOutlet UITableViewCell *dateCell;
+@property (weak, nonatomic) IBOutlet UITableViewCell *timeCell;
+@property (weak, nonatomic) IBOutlet UITableViewCell *paceCell;
 
 @end
 
-@implementation DSRunDetailViewController
+@implementation DSRunDetailTableViewController
 
 #pragma mark - Managing the detail item
 
@@ -31,30 +31,35 @@
 {
     if (_run != run) {
         _run = run;
-        [self configureView];
+        //[self configureView];
     }
 }
 
 - (void)configureView
 {
-    self.distanceLabel.text = [MathController stringifyDistance:self.run.distance.floatValue];
+    self.distanceCell.detailTextLabel.text = [MathController stringifyDistance:self.run.distance.floatValue];
     
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateStyle:NSDateFormatterMediumStyle];
     
-    self.dateLabel.text = [formatter stringFromDate:self.run.timestamp];
+    self.dateCell.detailTextLabel.text = [formatter stringFromDate:self.run.timestamp];
     
-    self.timeLabel.text = [NSString stringWithFormat:@"Time: %@",  [MathController stringifySecondCount:self.run.duration.intValue usingLongFormat:YES]];
+    self.timeCell.detailTextLabel.text = [NSString stringWithFormat:@"%@",  [MathController stringifySecondCount:self.run.duration.intValue usingLongFormat:YES]];
     
-    self.paceLabel.text = [NSString stringWithFormat:@"Pace: %@",  [MathController stringifyAvgPaceFromDist:self.run.distance.floatValue overTime:self.run.duration.intValue]];
-
+    self.paceCell.detailTextLabel.text = [NSString stringWithFormat:@"%@",  [MathController stringifyAvgPaceFromDist:self.run.distance.floatValue
+                                                                                                            overTime:self.run.duration.intValue]];
+    
     [self loadMap];
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
-    //self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStylePlain target:self action:@selector(popToRootViewController:)];
+    
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     [self configureView];
 }
 
@@ -63,8 +68,7 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
@@ -153,5 +157,4 @@
         [alertView show];
     }
 }
-
 @end

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>distanceUnits_Str</key>
+	<array>
+		<string>Miles</string>
+		<string>Meters</string>
+	</array>
+	<key>isMetric</key>
+	<false/>
+	<key>useIntervalTimer</key>
+	<false/>
+	<key>intervalTimes_Int</key>
+	<array>
+		<integer>30</integer>
+		<integer>45</integer>
+		<integer>60</integer>
+		<integer>90</integer>
+		<integer>120</integer>
+	</array>
+	<key>intervalTimes_Str</key>
+	<array>
+		<string>30 Sec</string>
+		<string>45 Sec</string>
+		<string>1 Min</string>
+		<string>90 Sec</string>
+		<string>2 Min</string>
+	</array>
+	<key>walkIntervalIndex_Int</key>
+	<integer>0</integer>
+	<key>runIntervalIndex_Int</key>
+	<integer>0</integer>
+	<key>name_Str</key>
+	<string>Not Set</string>
+	<key>dob_Date</key>
+	<date>1983-11-23T17:59:59Z</date>
+	<key>genders_Str</key>
+	<array>
+		<string>Male</string>
+		<string>Female</string>
+	</array>
+	<key>genderIndex_Int</key>
+	<integer>0</integer>
+</dict>
+</plist>

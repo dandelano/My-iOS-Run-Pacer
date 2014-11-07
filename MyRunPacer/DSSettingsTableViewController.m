@@ -7,21 +7,49 @@
 //
 
 #import "DSSettingsTableViewController.h"
+#import "AppDelegateProtocol.h"
+#import "SettingsDataObject.h"
+#import "DSSettingSelectTableViewController.h"
+
+// TODO: Implement setting and getting of user settings
+static NSDateFormatter *formatter = nil;
+static NSString * const settingSelectSegueName = @"settingSelect";
+static NSString * const aboutSegueName = @"aboutView";
 
 @interface DSSettingsTableViewController ()
+
+@property (weak,nonatomic) SettingsDataObject *settingsDataObj;
+@property (nonatomic) CellSelector selectedCell;
+
+@property (weak, nonatomic) IBOutlet UITableViewCell *distanceUnitCell;
+@property (weak, nonatomic) IBOutlet UISwitch *useIntervalTimerSwitch;
+@property (weak, nonatomic) IBOutlet UITableViewCell *useIntervalTimerCell;
+@property (weak, nonatomic) IBOutlet UITableViewCell *walkIntervalCell;
+@property (weak, nonatomic) IBOutlet UITableViewCell *runIntervalCell;
+@property (weak, nonatomic) IBOutlet UITableViewCell *userNameCell;
+@property (weak, nonatomic) IBOutlet UITableViewCell *dobCell;
+@property (weak, nonatomic) IBOutlet UITableViewCell *genderCell;
+@property (weak, nonatomic) IBOutlet UITableViewCell *aboutCell;
 
 @end
 
 @implementation DSSettingsTableViewController
 
+- (SettingsDataObject*)settingsDataObject
+{
+    id<AppDelegateProtocol> theDelegate = (id<AppDelegateProtocol>) [UIApplication sharedApplication].delegate;
+    return (SettingsDataObject*) theDelegate.settingsDataObject;
+}
+
+
 - (void)viewDidLoad {
-    [super viewDidLoad];
+    [super viewDidLoad];    
+    self.settingsDataObj = [self settingsDataObject];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    if (formatter == nil) {
+        formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"MMM dd yyyy"];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -29,72 +57,80 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
-    return 0;
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    // Use the isMetric bool to get the string representations from array
+    self.distanceUnitCell.detailTextLabel.text = [[self.settingsDataObj distanceUnits_Str] objectAtIndex:[self.settingsDataObj isMetric] ? 1 : 0];
+    // Use bool to set switch on or off
+    [self.useIntervalTimerSwitch setOn:[self.settingsDataObj useIntervalTimer]];
+    // Display string of walk interval seconds
+    self.walkIntervalCell.detailTextLabel.text = [[self.settingsDataObj intervalTimes_Str] objectAtIndex:[self.settingsDataObj walkIntervalIndex_Int]];
+    // Display string of run interval seconds
+    self.runIntervalCell.detailTextLabel.text = [[self.settingsDataObj intervalTimes_Str] objectAtIndex:[self.settingsDataObj runIntervalIndex_Int]];
+    // Get string for name
+    self.userNameCell.detailTextLabel.text = [self.settingsDataObj name_Str];
+    // format Day,Month day year
+    self.dobCell.detailTextLabel.text = [formatter stringFromDate:[self.settingsDataObj dob_Date]];
+    // Use the gender index to get the string value
+    self.genderCell.detailTextLabel.text = [[self.settingsDataObj genders_Str] objectAtIndex:[self.settingsDataObj genderIndex_Int]];
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
-    return 0;
+#pragma mark - Interval Switch
+
+- (IBAction)switchChanged:(id)sender
+{
+    if ([sender isOn]) {
+        [self.settingsDataObj setUseIntervalTimer:YES];
+    } else {
+        [self.settingsDataObj setUseIntervalTimer:NO];
+    }
 }
 
-/*
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+
+#pragma mark - TableView
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *theCellClicked = [self.tableView cellForRowAtIndexPath:indexPath];
     
-    // Configure the cell...
+    if (theCellClicked == self.distanceUnitCell) {
+        self.selectedCell = csDistanceUnitCell;
+    } else if (theCellClicked == self.useIntervalTimerCell){
+        self.selectedCell = csUseIntervalTimerCell;
+    } else if (theCellClicked == self.walkIntervalCell) {
+        self.selectedCell = csWalkIntervalCell;
+    } else if (theCellClicked == self.runIntervalCell) {
+        self.selectedCell = csRunIntervalCell;
+    } else if (theCellClicked == self.userNameCell) {
+        self.selectedCell = csUserNameCell;
+    } else if (theCellClicked == self.dobCell) {
+        self.selectedCell = csDobCell;
+    } else if (theCellClicked == self.genderCell) {
+        self.selectedCell = csGenderCell;
+    } else if (theCellClicked == self.aboutCell){
+        self.selectedCell = csAboutCell;
+    } else {
+        NSLog(@"Unknown Cell Selection");
+        self.selectedCell = csUnknownCell;
+    }
     
-    return cell;
+    if (self.selectedCell == csUnknownCell || self.selectedCell == csUseIntervalTimerCell) {
+        // Do nothing for these cells
+        return;
+    } else if(self.selectedCell == csAboutCell){
+        [self performSegueWithIdentifier:aboutSegueName sender:nil];
+    } else {
+        [self performSegueWithIdentifier:settingSelectSegueName sender:nil];
+    }
 }
-*/
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
+#pragma mark - Prepare Segue
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    if ([[segue identifier] isEqualToString:settingSelectSegueName]) {
+        [[segue destinationViewController] setSelectedOptions: self.selectedCell];
+    }
 }
-*/
 
 @end
