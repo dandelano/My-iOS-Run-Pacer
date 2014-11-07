@@ -733,8 +733,8 @@
                                         <mask key="constraints">
                                             <exclude reference="bIh-b8-xxx"/>
                                             <exclude reference="jQY-Ab-4CD"/>
-                                            <exclude reference="tYe-Jz-LnO"/>
                                             <exclude reference="lTy-pl-qOP"/>
+                                            <exclude reference="tYe-Jz-LnO"/>
                                         </mask>
                                     </variation>
                                     <variation key="heightClass=regular-widthClass=compact">
@@ -745,8 +745,8 @@
                                         <mask key="constraints">
                                             <include reference="bIh-b8-xxx"/>
                                             <include reference="jQY-Ab-4CD"/>
-                                            <include reference="tYe-Jz-LnO"/>
                                             <include reference="lTy-pl-qOP"/>
+                                            <include reference="tYe-Jz-LnO"/>
                                         </mask>
                                     </variation>
                                 </tableViewCellContentView>

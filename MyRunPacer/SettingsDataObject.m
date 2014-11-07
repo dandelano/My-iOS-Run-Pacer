@@ -8,10 +8,20 @@
 
 #import "SettingsDataObject.h"
 
-@interface SettingsDataObject ()
+static NSString *const keyDistanceUnit_Str =  @"distanceUnits_Str";
 
-- (void)addSettingForKey:(NSString*)key andValue:(NSString*)value;
-- (NSString*)getNSStringSettingForKey:(NSString*)key;
+static NSString *const keyIsMetric = @"isMetric";
+static NSString *const keyUseIntervalTimer = @"useIntervalTimer";
+static NSString *const keyIntervalTimes_Int = @"intervalTimes_Int";
+static NSString *const keyIntervalTimes_Str = @"intervalTimes_Str";
+static NSString *const keyWalkIntervalIndex_Int = @"walkIntervalIndex_Int";
+static NSString *const keyRunIntervalIndex_Int = @"runIntervalIndex_Int";
+static NSString *const keyName_Str = @"name_Str";
+static NSString *const keyDob_Date = @"dob_Date";
+static NSString *const keyGenderIndex_Int = @"genderIndex_Int";
+static NSString *const keyGenders_Str = @"genders_Str"; // 0 male, 1 female
+
+@interface SettingsDataObject ()
 
 @end
 
@@ -39,27 +49,6 @@
 //@synthesize data1;
 //@synthesize float1;
 
-#pragma mark - Private Functions
-
-- (void)addSettingForKey:(NSString*)key andValue:(NSString*)value;
-{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    
-    //NSString *storedVal = @"This is what you want to save";
-    //NSString *key = @"storedVal"; // the key for the data
-    
-    [defaults setObject:value forKey:key];
-    [defaults synchronize]; // this method is optional
-}
-
-- (NSString*)getNSStringSettingForKey:(NSString*)key
-{
-    // Get the results out
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *results = [defaults stringForKey:key];
-    return results;
-}
-
 #pragma mark - Public Functions
 - (void)registerDefaultSettings
 {
@@ -73,27 +62,33 @@
 - (void)loadUserSettings
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    self.distanceUnits_Str = [defaults arrayForKey:@"distanceUnits_Str"];
-    self.isMetric = [defaults boolForKey:@"isMetric"];
-    self.useIntervalTimer = [defaults boolForKey:@"useIntervalTimer"];
-    self.intervalTimes_Int = [defaults arrayForKey:@"intervalTimes_Int"];
-    self.intervalTimes_Str = [defaults arrayForKey:@"intervalTimes_Str"];
-    self.walkIntervalIndex_Int = [defaults integerForKey:@"walkIntervalIndex_Int"];
-    self.runIntervalIndex_Int = [defaults integerForKey:@"runIntervalIndex_Int"];
-    self.name_Str = [defaults stringForKey:@"name_Str"];
-    self.dob_Date = (NSDate*)[defaults objectForKey:@"dob_Date"];
-    self.genderIndex_Int = [defaults integerForKey:@"genderIndex_Int"];
-    self.genders_Str = [defaults arrayForKey:@"genders_Str"]; // 0 male, 1 female
+    self.distanceUnits_Str = [defaults arrayForKey:keyDistanceUnit_Str];
+    self.isMetric = [defaults boolForKey:keyIsMetric];
+    self.useIntervalTimer = [defaults boolForKey:keyUseIntervalTimer];
+    self.intervalTimes_Int = [defaults arrayForKey:keyIntervalTimes_Int];
+    self.intervalTimes_Str = [defaults arrayForKey:keyIntervalTimes_Str];
+    self.walkIntervalIndex_Int = [defaults integerForKey:keyWalkIntervalIndex_Int];
+    self.runIntervalIndex_Int = [defaults integerForKey:keyRunIntervalIndex_Int];
+    self.name_Str = [defaults stringForKey:keyName_Str];
+    self.dob_Date = (NSDate*)[defaults objectForKey:keyDob_Date];
+    self.genderIndex_Int = [defaults integerForKey:keyGenderIndex_Int];
+    self.genders_Str = [defaults arrayForKey:keyGenders_Str]; // 0 male, 1 female
 }
 
 - (void)saveUserSettings
 {
+    NSLog(@"Saving user settings");
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
-    NSString *storedVal = @"This is what you want to save";
-    NSString *key = @"storedVal"; // the key for the data
+    [defaults setBool:self.isMetric forKey:keyIsMetric];
+    [defaults setBool:self.useIntervalTimer forKey:keyUseIntervalTimer];
+    [defaults setInteger:self.walkIntervalIndex_Int forKey:keyWalkIntervalIndex_Int];
+    [defaults setInteger:self.runIntervalIndex_Int forKey:keyRunIntervalIndex_Int];
+    [defaults setObject:self.name_Str forKey:keyName_Str];
+    [defaults setObject:self.dob_Date forKey:keyDob_Date];
+    [defaults setInteger:self.genderIndex_Int forKey:keyGenderIndex_Int];
     
-    [defaults setObject:storedVal forKey:key];
+    // force saving
     [defaults synchronize]; // this method is optional
 }
 
